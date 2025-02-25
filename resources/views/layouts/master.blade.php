@@ -7,16 +7,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', config('app.name', '@Master Layout'))</title>
-
-    @yield('styles')
+    @include('partial.head')
+    
 </head>
 <body>
+    
     @include('partial.header')
 
     @yield('content')
 
     @include('partial.footer')
 
-    @yield('scripts')
+    @include('partial.scripts')
 </body>
 </html>
