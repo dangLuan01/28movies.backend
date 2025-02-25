@@ -21,6 +21,6 @@ class ProductController extends AdminController
     {
         //$this->_params["item-per-page"]     = $this->getCookie('-item-per-page', 25);
         $this->_params['model']             = $this->model->listItem($this->_params, ['task' => "admin-index"]);
-         return view($this->_viewAction, ['params' => $this->_params]);
+        return view($this->_viewAction, ['params' => $this->_params]);
     }
 }
