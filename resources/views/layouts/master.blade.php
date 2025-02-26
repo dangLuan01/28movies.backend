@@ -8,7 +8,7 @@
 
     <title>@yield('title', config('app.name', '@Master Layout'))</title>
     @include('partial.head')
-    
+    @include('partial.scripts')
 </head>
 <body>
     
@@ -18,6 +18,6 @@
 
     @include('partial.footer')
 
-    @include('partial.scripts')
+    
 </body>
 </html>

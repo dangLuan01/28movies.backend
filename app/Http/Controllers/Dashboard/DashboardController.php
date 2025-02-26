@@ -14,14 +14,8 @@ class DashboardController extends AdminController
     {
         parent::__construct($request);
     }
-    public function index(Request $request)
+    public function index()
     {
-        //$this->_params["item-per-page"]     = $this->getCookie('-item-per-page', 25);
-        //$this->_params['model']             = $this->model->listItem($this->_params, ['task' => "admin-index"]);
-        // echo '<pre>';
-        // print_r($this->_viewAction);
-        // echo '<pre>';
-        // die();
-         return view($this->_viewAction, ['params' => $this->_params]);
+         return view('dashboard.index', ['params' => $this->_params]);
     }
 }

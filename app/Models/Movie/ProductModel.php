@@ -21,6 +21,14 @@ class ProductModel extends BackendModel
         }
         return $this->_data;
     }
+    public function saveItem($params = null, $options = null){
+        if ($options['task'] == 'add-item') {
+            echo '<pre>';
+            print_r($params);
+            echo '<pre>';
+            die();
+        }
+    }
     public function category(){
         return $this->hasOne(CategoryModel::class,'id', 'category_id');
     }
