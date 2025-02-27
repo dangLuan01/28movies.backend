@@ -69,6 +69,10 @@ $(document).ready(function () {
     placeholder: "Choose quality",
     allowClear: true,
   });
+  $("#option").select2({
+    placeholder: "Choose option",
+    allowClear: true,
+  });
 
   $("#country").select2({
     placeholder: "Choose country / countries",

@@ -4,12 +4,24 @@ namespace App\Models\Dashboard;
 
 use App\Models\BackendModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Http;
+use LDAP\Result;
 
 class DashboardModel extends BackendModel
 {
+    public $data = [
+            'Discover-Movie'    => 'https://api.themoviedb.org/3/discover/movie',
+            'Now Playing-Movie' => 'https://api.themoviedb.org/3/movie/now_playing',
+            'Popular-Movie'     => 'https://api.themoviedb.org/3/movie/popular',
+            'Trending-Movie'    => 'https://api.themoviedb.org/3/trending/movie/day',
+            'Discover-TV'       => 'https://api.themoviedb.org/3/discover/tv',
+            'Now Playing-TV'    => 'https://api.themoviedb.org/3/tv/now_playing',
+            'Popular-TV'        => 'https://api.themoviedb.org/3/tv/popular',
+            'Trending-TV'       => 'https://api.themoviedb.org/3/trending/tv/day'
+    ];
     public function __construct()
     {
-        $this->table        = TABLE_MOVIE;
+        //$this->table        = TABLE_MOVIE;
         parent::__construct();
     }
     public function listItem($params = null, $options = null)
@@ -20,5 +32,17 @@ class DashboardModel extends BackendModel
         //     $this->_data['items'] = $query;
         // }
         return $this->_data;
+    }
+    public function getItem($params = null, $options = null){
+        $result = null;
+        if ($options['task'] == 'get-movie-list') {
+          
+            $result = Http::withHeaders([
+                'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMmViYzQ1NzAyODhlY2QyZDNkZDA3NWQ0YzdkNTRhMSIsIm5iZiI6MTcxMzA2NDc5OC4wNzEsInN1YiI6IjY2MWI0YjVlNGU0ZGZmMDE5ZDAzN2RkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.VZt3ZPvg0EhpgrosOCyhyg3-1n_3heWIFy-ElUznCYw',
+                'accept' => 'application/json'
+            ])->get($params['url']);
+            
+        }
+        return $result->json();
     }
 }

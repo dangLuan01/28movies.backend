@@ -19,3 +19,5 @@ Route::resource('movie/product', ProductController::class, ['as' => 'movie']);
 // Auth::routes();
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::post('/get-movie-tmdb', [DashboardController::class, 'getMovieTmdb'])->name('get-movie-tmdb');
+
