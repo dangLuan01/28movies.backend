@@ -81,7 +81,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path d="M21,11a1,1,0,0,0-1,1,8.05,8.05,0,1,1-2.22-5.5h-2.4a1,1,0,0,0,0,2h4.53a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4.77A10,10,0,1,0,22,12,1,1,0,0,0,21,11Z" />
                                     </svg></a>
-                                <a class="dashbox__more" href="#">Add Auto</a>
+                                <a class="dashbox__more save-movie" href="#">Add Auto</a>
                             </div>
                         </div>
                         <div class="dashbox__table-wrap dashbox__table-wrap--1">
@@ -124,13 +124,15 @@
                     success: (data) => {
                         
                         let movies = data.params.items.results; 
+                        console.log(movies);
+                        
                         let tbody = $('.dashbox__table-wrap tbody'); 
                         tbody.empty();
 
                         movies.forEach((movie, index) => {
                             let row = `
                                 <tr>
-                                    <td><div class="main__table-text">${index + 1}</div></td>
+                                    <td><div class="main__table-text">${movie.id}</div></td>
                                     <td>
                                         <div class="main__table-text">
                                             <a href="#">${movie.title}</a>
@@ -168,6 +170,28 @@
                        console.log(data);
                     }
                 });
+        });
+        $('.save-movie').on('click', function(){
+            const url = $('.choose-option').val();
+            $.ajax({
+                    type: 'POST',
+                    url: "{{ route('save-auto-movie') }}",
+                    data: {url:url},
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    // cache: false,
+                    // contentType: false,
+                    // processData: true,
+                    success: (data) => {
+                        console.log(data);
+                        
+                    },
+                    error: function(data) {
+                       console.log(data);
+                    }
+                });
+            
         });
     </script>
 @stop

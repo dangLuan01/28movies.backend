@@ -42,8 +42,7 @@
     @include('partial.sidebar')
     <!-- sidebar copyright -->
     <div class="sidebar__copyright">
-        © FlixTV.template, 2021. <br />Create by
-        <a href="https://themeforest.net/user/dmitryvolkov/portfolio" target="_blank">Dmitry Volkov</a>
+        © 28movies 2025. <br />
     </div>
     <!-- end sidebar copyright -->
 </div>

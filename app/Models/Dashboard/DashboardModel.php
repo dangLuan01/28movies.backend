@@ -2,6 +2,7 @@
 
 namespace App\Models\Dashboard;
 
+use App\Jobs\ProcessAutoSaveMovie;
 use App\Models\BackendModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
@@ -38,11 +39,16 @@ class DashboardModel extends BackendModel
         if ($options['task'] == 'get-movie-list') {
           
             $result = Http::withHeaders([
-                'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMmViYzQ1NzAyODhlY2QyZDNkZDA3NWQ0YzdkNTRhMSIsIm5iZiI6MTcxMzA2NDc5OC4wNzEsInN1YiI6IjY2MWI0YjVlNGU0ZGZmMDE5ZDAzN2RkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.VZt3ZPvg0EhpgrosOCyhyg3-1n_3heWIFy-ElUznCYw',
+                'Authorization' => env('TMDB_TOKEN'),
                 'accept' => 'application/json'
             ])->get($params['url']);
             
         }
         return $result->json();
+    }
+    public function saveItem($params = null, $options = null){
+        if($options['task'] == 'save-auto-movie'){
+            ProcessAutoSaveMovie::dispatch($params);
+        }
     }
 }
