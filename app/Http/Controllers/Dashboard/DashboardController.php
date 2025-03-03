@@ -30,13 +30,21 @@ class DashboardController extends AdminController
         return response()->json(['params' => $this->_params]);
     }
     public function saveAutoMovie(){
+        $filePath = storage_path('app/movie_urls.json'); // Đường dẫn file JSON
+
+        if (!file_exists($filePath)) {
+            return response()->json(['message' => 'File JSON không tồn tại'], 404);
+        }
+        
+        $jsonContent = file_get_contents($filePath);
+        $this->_params['movieUrls'] = json_decode($jsonContent, true);
+
         return $this->model->saveItem($this->_params, ['task' => 'save-auto-movie']);
     }
     public function test(){
-        $result = Http::withHeaders([
-            'Authorization' => env('TMDB_TOKEN'),
-            'accept' => 'application/json'
-        ])->get('https://api.themoviedb.org/3/discover/movie')->json();
+        $result = null;
+
+
         return $result;
     }
 }

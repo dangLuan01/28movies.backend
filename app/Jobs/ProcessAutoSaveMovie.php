@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Movie\EpisodeModel;
+use App\Models\Movie\ImageModel;
 use App\Models\Movie\ProductModel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,7 +23,6 @@ class ProcessAutoSaveMovie implements ShouldQueue
     public function __construct($params)
     {
         $this->params   = $params;
-        $this->table    = config('constants.TABLE_MOVIE');
         $this->movie    = new ProductModel();
     }
 
@@ -29,27 +30,46 @@ class ProcessAutoSaveMovie implements ShouldQueue
      * Execute the job.
      */
     public function handle(): void
-    {
-        $list = Http::withHeaders([
-            'Authorization' => env('TMDB_TOKEN'),
-            'accept' => 'application/json'
-        ])->get($this->params['url'])->json();
-       
-        foreach($list['results'] as $movie){
-           $exiting =  $this->movie->where($this->table . '.name_english',$movie['original_title'])->first();
-           if ($exiting != null) {
-                $this->movie->insert([
-                        'name'=>$movie['original_title'],
-                        'release_date' => $movie['release_date'],
-                        'rating' => $movie['vote_average'],
-                ]);
-           }
-            // ProductModel::insert([
-            //     'name'=>$movie['original_title'],
-            //     'release_date' => $movie['release_date'],
-            //     'rating' => $movie['vote_average'],
-            // ]);
-            
+    {  
+        foreach($this->params as $url){
+            $item = Http::get($url)->json();
+            if (preg_match('/(\d+)/', $item['movie']['episode_total'], $matchess)) {
+                $episode_total = $matchess[0];
+            }
+            $insertGetId = ProductModel::insertGetId([
+                'name'              =>  $item['movie']['name'] ?? '',
+                'origin_name'       =>  $item['movie']['origin_name'] ?? '',
+                'slug'              =>  $item['movie']['slug'] ?? '',
+                'type_movie'        =>  $item['movie']['type'] ?? '',
+                'runtime'           =>  $item['movie']['time'] ?? '',
+                'quality'           =>  $item['movie']['quality'] ?? '',
+                'imdb'              =>  $item['movie']['imdb']['id'] ?? '',
+                'rating'            =>  $item['movie']['tmdb']['vote_average'] ?? '',
+                'episode_total'     =>  $episode_total ?? '',
+                //'season'            =>  $item['movie']['original_title'] ?? '',
+                'trailer'           =>  $item['movie']['trailer_url'] ?? '',
+                'release_date'      =>  $item['movie']['year'] ?? '',
+            ]);
+            ImageModel::insert([
+                    'movie_id' => $insertGetId,
+                    'image' => $item['movie']['thumb_url'],
+            ]);  
+            ImageModel::insert([
+                'movie_id'      => $insertGetId,
+                'image'         => $item['movie']['poster_url'],
+                'is_thumbnail'  => 1
+            ]);  
+            foreach ($item['episodes'] as $episode) {
+               foreach($episode['server_data'] as $ep){
+                    EpisodeModel::insert([
+                        'movie_id'      => $insertGetId,
+                        'hls'           => $ep['link_m3u8'],
+                        'episode'       => $ep['name'],
+                        'server_name'   => $episode['server_name']
+                    ]);
+               } 
+            }
         }
+       
     }
 }
