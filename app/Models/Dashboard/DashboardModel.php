@@ -49,7 +49,6 @@ class DashboardModel extends BackendModel
     public function saveItem($params = null, $options = null){
         if($options['task'] == 'save-auto-movie'){
             foreach ($params['movieUrls'] as $url) {
-                sleep(0.5);
                 ProcessAutoSaveMovie::dispatch($url);
             }            
         }
