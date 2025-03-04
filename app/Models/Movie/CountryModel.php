@@ -16,7 +16,7 @@ class CountryModel extends BackendModel
         $result = null;
         if ($options['task'] == 'get-all-country') {
             
-            $result = self::select($this->table . '.id', $this->table . '.title')->get();
+            $result = self::select($this->table . '.id', $this->table . '.name')->get();
         }
         return $result;
     }

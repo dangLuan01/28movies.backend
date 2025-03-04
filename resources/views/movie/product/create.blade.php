@@ -69,7 +69,7 @@
                                 <div class="form__group">
                                     <select class="js-example-basic-multiple" id="country" name="country[]" multiple="multiple">
                                         @foreach ($params['countries'] as $country)
-                                        <option value="{{$country['id']}}">{{$country['title']}}</option>    
+                                        <option value="{{$country['id']}}">{{$country['name']}}</option>    
                                         @endforeach
                                     </select>
                                 </div>
@@ -78,7 +78,7 @@
                                 <div class="form__group">
                                     <select class="js-example-basic-multiple" id="genre" name="genre[]" multiple="multiple">
                                         @foreach ($params['genres'] as $genre)
-                                        <option value="{{$genre['id']}}">{{$genre['title']}}</option>    
+                                        <option value="{{$genre['id']}}">{{$genre['name']}}</option>    
                                         @endforeach
                                         
                                     </select>

@@ -16,7 +16,7 @@ class ProductModel extends BackendModel
     public function listItem($params = null, $options = null)
     {
         if ($options['task'] == "admin-index") {
-            $query = self::with('category:id,title')->orderByDesc('id')->paginate(10);
+            $query = self::with('images')->orderByDesc('id')->paginate(10);
             $this->_data['items'] = $query;
         }
         return $this->_data;
@@ -31,5 +31,8 @@ class ProductModel extends BackendModel
     }
     public function category(){
         return $this->hasOne(CategoryModel::class,'id', 'category_id');
+    }
+    public function images(){
+        return $this->hasMany(ImageModel::class,'movie_id', 'id')->where('is_thumbnail', 0);
     }
 }
