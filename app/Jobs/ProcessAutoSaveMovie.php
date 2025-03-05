@@ -76,7 +76,6 @@ class ProcessAutoSaveMovie implements ShouldQueue
                         ];
                     }
                 }
-    
                 if (!empty($newGenres)) {
                     GenreModel::insert($newGenres);
                     $insertedGenres = GenreModel::whereIn('slug', collect($newGenres)->pluck('slug'))->pluck('id', 'slug');
@@ -88,33 +87,30 @@ class ProcessAutoSaveMovie implements ShouldQueue
                         ];
                     }
                 }
-    
                 MovieGenreModel::insert($movieGenres);
             }
-            $images = [
-                ['movie_id' => $insertGetId, 'image' => data_get($movie, 'thumb_url', '')],
-                ['movie_id' => $insertGetId, 'image' => data_get($movie, 'poster_url', ''), 'is_thumbnail' => 1],
-            ];
-            ImageModel::insert($images);
-            if (!empty($item['episodes'])) {
-                $episodes = [];
-                foreach ($item['episodes'] as $episode) {
-                    if (!empty($episode['server_data'])) {
-                        foreach ($episode['server_data'] as $ep) {
-                            $episodes[] = [
-                                'movie_id'   => $insertGetId,
-                                'hls'        => data_get($ep, 'link_m3u8', ''),
-                                'episode'    => data_get($ep, 'name', ''),
-                                'server_id'  => 1,
-                            ];
-                        }
-                    }
-                }
-    
-                if (!empty($episodes)) {
-                    EpisodeModel::insert($episodes);
+            ImageModel::insert([
+                'movie_id'  => $insertGetId,
+                'image'     => $item['movie']['thumb_url'] ?? '',
+            ]);  
+            ImageModel::insert([
+                'movie_id'      => $insertGetId,
+                'image'         => $item['movie']['poster_url'] ?? '',
+                'is_thumbnail'  => 1
+            ]);  
+           
+            $episodes = [];
+            foreach ($item['episodes'] as $episode) {
+                foreach ($episode['server_data'] as $ep) {
+                    $episodes[] = [
+                        'movie_id'   => $insertGetId,
+                        'hls'        => data_get($ep, 'link_m3u8', ''),
+                        'episode'    => data_get($ep, 'name', ''),
+                        'server_id'  => 1,
+                    ];
                 }
             }
+            EpisodeModel::insert($episodes);
             // $item = Http::get($this->params)->json();
             // if (preg_match('/(\d+)/', $item['movie']['episode_total'], $matchess)) {
             //     $episode_total = $matchess[0];
