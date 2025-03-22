@@ -1,6 +1,11 @@
 @extends('layouts.master')
 @section('title', 'Create Movie')
 @section('content')
+<style>
+    label{
+        color: #fff;
+    }
+</style>
 <form class="form-horizontal" id="admin-{{ $params['prefix'] }}-form" name="admin-{{ $params['prefix'] }}-form"
         enctype="multipart/form-data" method="POST" action="{{ route($params['prefix'] . '.' . $params['controller'] . '.store') }}">
     <input type="hidden" name="_method" value="POST">
@@ -67,10 +72,8 @@
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form__group">
-                                    <select class="js-example-basic-multiple" id="country" name="country[]" multiple="multiple">
-                                        @foreach ($params['countries'] as $country)
-                                        <option value="{{$country['id']}}">{{$country['name']}}</option>    
-                                        @endforeach
+                                    <select class="js-example-basic-multiple" id="country" name="" multiple="multiple">
+                                       
                                     </select>
                                 </div>
                             </div>
@@ -81,6 +84,52 @@
                                         <option value="{{$genre['id']}}">{{$genre['name']}}</option>    
                                         @endforeach
                                         
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form__group">
+                                    <label class="color-label">Trailer</label>
+                                    <input type="text" class="form__input" name="trailer" id="trailer" placeholder="Trailer" value="" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form__group">
+                                    <label>Season</label>
+                                    <input type="text" class="form__input" name="season" id="season" placeholder="Season" value="" />
+                                </div>
+                            </div>
+                           
+                            <div class="col-6">
+                                <div class="form__group">
+                                    <label>Episode_ total</label>
+                                    <input type="text" class="form__input" name="episode_total" id="episode_total" placeholder="Episode_total" value="" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form__group">
+                                    <label>Rating</label>
+                                    <input type="text" class="form__input" name="rating" id="rating" placeholder="Rating" value="" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form__group">
+                                    <label>Imdb</label>
+                                    <input type="text" class="form__input" name="imdb" id="imdb" placeholder="Imdb" value="" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form__group">
+                                    <label>Tmdb</label>
+                                    <input type="text" class="form__input" name="tmdb" id="tmdb" placeholder="Tmdb" value="" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="form__group">
+                                    <label>Hot</label>
+                                    <select class="js-example-basic-single" id="hot" name="hot">
+                                        <option value="0" >Không</option>
+                                        <option value="1">Có</option>
                                     </select>
                                 </div>
                             </div>

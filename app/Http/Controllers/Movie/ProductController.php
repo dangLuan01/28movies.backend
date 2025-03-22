@@ -28,9 +28,7 @@ class ProductController extends AdminController
     }
     public function create(){
         $this->genre             = new GenreModel();
-        $this->country           = new CountryModel();
-        $this->_params['genres'] = $this->genre->getItem($this->_params, ['task' => 'get-all-genre']);
-        $this->_params['countries'] = $this->country->getItem($this->_params, ['task' => 'get-all-country']);
+        $this->_params['genres'] = $this->genre->listItem($this->_params, ['task' => 'get-info']);
         return view($this->_viewAction, ['params' => $this->_params]);
     }
     public function store(ProductRequest $request){
@@ -39,25 +37,27 @@ class ProductController extends AdminController
     }
     public function edit($id)
     {
-        // $parentCategories = CategoryModel::select('id','name')->get();
-        // $this->_params[$this->model->columnPrimaryKey()] = $id;
-        // $this->_params['item']              = $this->model->getItem($this->_params, ['task' => 'get-item-info']);
-        // return view($this->_viewAction, ['params' => $this->_params,  'parentCategories' => $parentCategories]);
+        $this->_params[$this->model->columnPrimaryKey()] = $id;
+        $this->genre                = new GenreModel();
+        $this->_params['genres']    = $this->genre->listItem($this->_params, ['task' => 'get-info']);
+        $this->_params['item']      = $this->model->getItem($this->_params, ['task' => 'get-item-info']);
+       
+        return view($this->_viewAction, ['params' => $this->_params]);
     }
     public function update(ProductRequest $request)
     {
-        // if (isset($this->_params['_method']) && $this->_params['_method'] == 'PUT') {
-        //     $this->model->saveItem($this->_params, ['task' => 'edit-item']);
-        // }
-        // return response()->json(array('success' => true, 'message' => 'Cập nhật thành công'));
+        if (isset($this->_params['_method']) && $this->_params['_method'] == 'PUT') {
+            $this->model->saveItem($this->_params, ['task' => 'edit-item']);
+        }
+        return response()->json(array('success' => true, 'message' => 'Cập nhật thành công'));
     }
     public function status($status, $id)
     {
-        // $this->_params['status']    = $status;
-        // $this->_params['id']        = $id;
-        // $this->model->saveItem($this->_params, ['task' => 'change-status']);
+        $this->_params['status']    = $status;
+        $this->_params['id']        = $id;
+        $this->model->saveItem($this->_params, ['task' => 'change-status']);
         
-        // return redirect()->route($this->_params['prefix'] . '.' . $this->_params['controller'] . '.index')->with('notify', 'Cập nhật trạng thái thành công!');
+        return redirect()->route($this->_params['prefix'] . '.' . $this->_params['controller'] . '.index')->with('notify', 'Cập nhật trạng thái thành công!');
     }
     public function destroy(Request $request)
     {

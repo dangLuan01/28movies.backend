@@ -8,4 +8,5 @@ return [
     'TABLE_COUNTRY'         => 'countries',
     'TABLE_EPISODE'         => 'episodes',
     'TABLE_SERVER'          => 'movie_servers',
+    'TABLE_MOVIE_COUNTRY'   => 'movie_countries',
 ];

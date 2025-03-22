@@ -12,11 +12,13 @@ class GenreModel extends BackendModel
         $this->table = config('constants.TABLE_GENRE');
         parent::__construct();
     }
-    public function getItem($params = null, $options = null){
+    public function listItem($params = null, $options = null){
         $result = null;
-        if ($options['task'] == 'get-all-genre') {
-            
+        if ($options['task'] == 'get-info') {
             $result = self::select($this->table . '.id', $this->table . '.name')->get();
+            if ($result) {
+                $result = $result->toArray();
+            }
         }
         return $result;
     }

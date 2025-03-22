@@ -77,6 +77,9 @@ $(document).ready(function () {
   $("#country").select2({
     placeholder: "Choose country / countries",
   });
+  $("#hot").select2({
+    placeholder: "Choose movies hot",
+  });
 
   $("#genre").select2({
     placeholder: "Choose genre / genres",

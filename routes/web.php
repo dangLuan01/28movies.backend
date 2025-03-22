@@ -16,6 +16,7 @@ Route::middleware(['auth:web'])->group(function () {
     // Route::post('flight/article/confirm-delete', [ArticleController::class, 'confirmDelete'])->name('flight.article.confirm-delete');
 });
 Route::resource('movie/product', ProductController::class, ['as' => 'movie']);
+Route::get('movie/product/status/{status}/{id}', [ProductController::class, 'status'])->name('movie.product.status');
 // Auth::routes();
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

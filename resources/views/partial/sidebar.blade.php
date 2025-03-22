@@ -19,7 +19,7 @@
             </svg>
         </a>
         <ul class="collapse sidebar__menu {{ Route::is('movie.product.index') || Route::is('movie.product.create') ? 'show' : '' }}" id="collapseMenu">
-            <li><a href="{{route('movie.product.index')}}" class="{{ Route::is('movie.product.index')  ? 'active' : '' }}">List</a></li>
+            <li><a href="{{route('movie.product.index')}}" class="{{ Route::is('movie.product.index') || Route::is('movie.product.edit') ? 'active' : '' }}">List</a></li>
             <li><a href="{{route('movie.product.create')}}" class="{{ Route::is('movie.product.create') ? 'active' : '' }}">Add item</a></li>
             <li><a href="edit-user.html">Add Auto</a></li> 
         </ul>
