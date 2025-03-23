@@ -59,6 +59,16 @@ class ProductModel extends BackendModel
         }
         if ($options['task'] == 'edit-item') {
           
+            if(request()->hasFile('image_poster')){
+                $params['is_thumbnail'] = 0;
+                $this->image_poster     = new ImageModel();
+                $this->image_poster->saveItem($params, ['task' => 'edit-item']);
+            }
+            if(request()->hasFile('image_thumb')){
+                $params['is_thumbnail'] = 1;
+                $this->image_poster     = new ImageModel();
+                $this->image_poster->saveItem($params, ['task' => 'edit-item']);
+            }
            $params['updated_at'] = date('Y-m-d H:i:s');
            $movie = $this->find($params[$this->primaryKey]);
            $movie->genres()->sync($params['genre']);
