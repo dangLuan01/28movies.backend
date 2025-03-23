@@ -72,7 +72,7 @@
                                     <div class="main__table-text">{{$movie['id']}}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text"><img src="{{ $movie['poster'][0]['image'] ?? ''}}" alt="" width="110px"></div>
+                                    <div class="main__table-text"><img src="{{ $movie['poster'][0]['path'] . $movie['poster'][0]['image'] ?? ''}}" alt="" width="110px"></div>
                                 </td>
                                 <td>
                                     <div class="main__table-text">

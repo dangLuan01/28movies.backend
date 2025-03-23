@@ -31,7 +31,7 @@
                                     <label for="form__img-upload">Upload cover</label>
                                     <input id="form__img-upload" name="image_poster" type="file"
                                         accept=".png, .jpg, .jpeg" />
-                                    <img id="form__img" src="{{$params['item']['images']['0']['image'] ?? ''}}" alt="{{$params['item']['origin_name'] ?? ''}}" />
+                                    <img id="form__img" src="{{$params['item']['images']['0']['path'] . $params['item']['images']['0']['image'] ?? ''}}" alt="{{$params['item']['origin_name'] ?? ''}}" />
                                 </div>
                             </div>
                         </div>
@@ -152,11 +152,11 @@
                                 <span>Item type:</span>
                             </li>
                             <li>
-                                <input id="type1" type="radio" name="type_movie" value="single" {{$params['item']['type_movie'] == 'single' ? 'checked' : ''}}/>
+                                <input id="type1" type="radio" name="type" value="single" {{$params['item']['type_movie'] == 'single' ? 'checked' : ''}}/>
                                 <label for="type1">Movie</label>
                             </li>
                             <li>
-                                <input id="type2" type="radio" name="type_movie" value="series" {{$params['item']['type_movie'] == 'series' ? 'checked' : ''}}/>
+                                <input id="type2" type="radio" name="type" value="series" {{$params['item']['type_movie'] == 'series' ? 'checked' : ''}}/>
                                 <label for="type2">TV Show</label>
                             </li>
                         </ul>

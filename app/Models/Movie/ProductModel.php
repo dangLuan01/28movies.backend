@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ProductModel extends BackendModel
 {
     protected $fillable = ['id'];
-    public $crudNotAccepted = ['genre'];    
+    public $crudNotAccepted = ['genre', 'image_poster', 'image_thumb'];    
     public function __construct()
     {
         $this->table = config('constants.TABLE_MOVIE');
@@ -29,24 +29,39 @@ class ProductModel extends BackendModel
         if ($options['task'] == 'get-item-info') {
             
             $result = self::with('images', 'genres')->where($this->table . '.id', $params['id'])->first();
-            // if ($result) {
-            //     $result = $result->toArray();
-            // }
         }
         return $result;
     }
     public function saveItem($params = null, $options = null){
         if ($options['task'] == 'add-item') {
-            // $params['created_at'] = date('Y-m-d H:i:s');
-
-            // $this->genres()->sync($params['genre']);
-            // $this->insert($this->prepareParams($params));
+           
+            $params['insert_id'] = $this->insertGetId($this->prepareParams($params));
+            if ($params['insert_id'] && !empty($params['genre'])) {
+                $movie = $this->find($params['insert_id']);
+                if ($movie) {
+                    $movie->genres()->attach($params['genre']);
+                }
+            }
+            if(request()->hasFile('image_poster')){
+                    $params['is_thumbnail'] = 0;
+                    $this->image_poster     = new ImageModel();
+                    $this->image_poster->saveItem($params, ['task' => 'add-item']);
+            }
+            if(request()->hasFile('image_thumb')){
+               
+                $params['is_thumbnail'] = 1;
+                $this->image_poster     = new ImageModel();
+                $this->image_poster->saveItem($params, ['task' => 'add-item']);
+            }
+            $params['created_at'] = date('Y-m-d H:i:s');
+            
             return response()->json(array('success' => true, 'msg' => 'Thêm yêu cầu thành công!'));
         }
         if ($options['task'] == 'edit-item') {
           
            $params['updated_at'] = date('Y-m-d H:i:s');
-           $this->genres()->sync($params['genre']);
+           $movie = $this->find($params[$this->primaryKey]);
+           $movie->genres()->sync($params['genre']);
            $this->where($this->primaryKey, $params[$this->primaryKey])
                 ->update($this->prepareParams($params));
            return response()->json(array('success' => true, 'msg' => 'Cập nhật yêu cầu thành công!'));

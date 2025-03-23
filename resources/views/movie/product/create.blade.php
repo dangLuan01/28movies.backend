@@ -6,9 +6,7 @@
         color: #fff;
     }
 </style>
-<form class="form-horizontal" id="admin-{{ $params['prefix'] }}-form" name="admin-{{ $params['prefix'] }}-form"
-        enctype="multipart/form-data" method="POST" action="{{ route($params['prefix'] . '.' . $params['controller'] . '.store') }}">
-    <input type="hidden" name="_method" value="POST">
+
 <main class="main">
 <div class="container-fluid">
     <div class="row">
@@ -21,14 +19,16 @@
         <!-- end main title -->
         <!-- form -->
         <div class="col-12">
-            <form action="#" class="form">
+            <form class="form-horizontal" id="admin-{{ $params['prefix'] }}-form" name="admin-{{ $params['prefix'] }}-form"
+            enctype="multipart/form-data" method="POST" action="{{ route($params['prefix'] . '.' . $params['controller'] . '.store') }}">
+                <input type="hidden" name="_method" value="POST">
                 <div class="row">
                     <div class="col-12 col-md-5 form__cover">
                         <div class="row">
                             <div class="col-12 col-sm-6 col-md-12">
                                 <div class="form__img">
                                     <label for="form__img-upload">Upload cover (190 x 270)</label>
-                                    <input id="form__img-upload" name="image" type="file"
+                                    <input id="form__img-upload" name="image_poster" type="file"
                                         accept=".png, .jpg, .jpeg" />
                                     <img id="form__img" src="#" alt=" " />
                                 </div>
@@ -39,35 +39,40 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" name="title" id="title" placeholder="Title" />
+                                    <input type="text" class="form__input" name="name" id="name" placeholder="Title" />
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form__group">
-                                    <textarea id="text" name="text" class="form__textarea" placeholder="Description"></textarea>
+                                    <input type="text" class="form__input" name="slug" id="slug" placeholder="Slug" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form__group">
+                                    <textarea id="text" name="" class="form__textarea" placeholder="Description"></textarea>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" id="year" name="year" placeholder="Release year" />
+                                    <input type="text" class="form__input" id="release_date" name="release_date" placeholder="Release release_date" />
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" id="time" name="time" placeholder="Running timed in minutes" />
+                                    <input type="text" class="form__input" id="runtime" name="runtime" placeholder="Running timed in minutes" />
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
                                     <select class="js-example-basic-single" id="quality" name="quality">
-                                        <option value="FullHD">FullHD</option>
+                                        <option value="FHD">FullHD</option>
                                         <option value="HD">HD</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" placeholder="Age" />
+                                    <input type="text" class="form__input" name="age" placeholder="Age" />
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
@@ -136,7 +141,7 @@
                             <div class="col-12">
                                 <div class="form__gallery">
                                     <label id="gallery1" for="form__gallery-upload">Upload photos</label>
-                                    <input data-name="#gallery1" id="form__gallery-upload" name="image" class="form__gallery-upload" type="file" accept=".png, .jpg, .jpeg" multiple />
+                                    <input data-name="#gallery1" id="form__gallery-upload" name="image_thumb" class="form__gallery-upload" type="file" accept=".png, .jpg, .jpeg" multiple />
                                 </div>
                             </div>
                         </div>
@@ -147,11 +152,11 @@
                                 <span>Item type:</span>
                             </li>
                             <li>
-                                <input id="type1" type="radio" name="type" value="movies" checked="" />
+                                <input id="type1" type="radio" name="type" value="single" checked="" />
                                 <label for="type1">Movie</label>
                             </li>
                             <li>
-                                <input id="type2" type="radio" name="type" value="tv-show"/>
+                                <input id="type2" type="radio" name="type" value="series"/>
                                 <label for="type2">TV Show</label>
                             </li>
                         </ul>
@@ -184,7 +189,6 @@
     </div>
 </div>
 </main>
-</form>
 <script>
     $(document).ready(function() {
         $('#admin-{{ $params['prefix'] }}-form').submit(function(e) {
@@ -207,9 +211,9 @@
                 success: (data) => {
                     // hideLoadding();
                     // toastr.success(data.message);
-                    // setTimeout(() => {
-                    //     location.reload();
-                    // }, "1000");
+                    setTimeout(() => {
+                        location.reload();
+                    }, "1000");
                 },
                 error: function(data) {
                     // hideLoadding();

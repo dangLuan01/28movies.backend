@@ -113,7 +113,7 @@
             var url = $(this).val();
             $.ajax({
                     type: 'POST',
-                    url: "{{ route('get-movie-tmdb') }}",
+                    url: "",
                     data: {url:url},
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -175,7 +175,7 @@
             const url = $('.choose-option').val();
             $.ajax({
                     type: 'POST',
-                    url: "{{ route('save-auto-movie') }}",
+                    url: "",
                     data: {url:url},
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

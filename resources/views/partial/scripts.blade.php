@@ -4,3 +4,4 @@
 <script src="{{url('assets/js/smooth-scrollbar.js')}}"></script>
 <script src="{{url('assets/js/select2.min.js')}}"></script>
 <script src="{{url('assets/js/admin.js')}}"></script>
+<script src="{{url('assets/js/admin-function.js')}}"></script>

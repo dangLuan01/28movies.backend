@@ -17,13 +17,14 @@ class ProductController extends AdminController
     public $model;
     public function __construct(Request $request)
     {
-        $this->model = new ProductModel();
+        $this->model                        = new ProductModel();
         parent::__construct($request);
     }
     public function index(Request $request)
     {
         //$this->_params["item-per-page"]     = $this->getCookie('-item-per-page', 25);
         $this->_params['model']             = $this->model->listItem($this->_params, ['task' => "admin-index"]);
+       
         return view($this->_viewAction, ['params' => $this->_params]);
     }
     public function create(){

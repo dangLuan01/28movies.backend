@@ -20,8 +20,8 @@ Route::get('movie/product/status/{status}/{id}', [ProductController::class, 'sta
 // Auth::routes();
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::post('/get-movie-tmdb', [DashboardController::class, 'getMovieTmdb'])->name('get-movie-tmdb');
-Route::post('/save-auto-movie', [DashboardController::class, 'saveAutoMovie'])->name('save-auto-movie');
+//Route::post('/get-movie-tmdb', [DashboardController::class, 'getMovieTmdb'])->name('get-movie-tmdb');
+//Route::post('/save-auto-movie', [DashboardController::class, 'saveAutoMovie'])->name('save-auto-movie');
 // TEST
 Route::get('/test', [DashboardController::class, 'test'])->name('test');
 
