@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Movie\ProductRequest;
 use App\Models\Movie\CountryModel;
+use App\Models\Movie\CrawlerModel;
 use App\Models\Movie\GenreModel;
 use App\Models\Movie\ProductModel;
 use Illuminate\Http\Request;
@@ -65,5 +66,13 @@ class ProductController extends AdminController
         // $this->_params['id'] = $request->input('id');
         // $this->model->deleteItem($this->_params, ['task' => 'delete-item']);
         // return response()->json(array('success' => true, 'message' => 'Cập nhật thành công'));
+    }
+    public function crawler(){
+       return view($this->_viewAction, ['params' => $this->_params]);
+    }
+    public function crawlerData(Request $request){
+        $this->crawler = new CrawlerModel();
+        $this->_params['movies']  = $this->crawler->listItem($this->_params, ['task' => 'crawler-data']);
+        return response()->json(['data' => $this->_params['movies']]);
     }
 }
