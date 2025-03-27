@@ -8,34 +8,44 @@ use Illuminate\Support\Facades\Http;
 
 class CrawlerModel extends BackendModel
 {
+    public $searchUrl = 'https://ophim1.com/v1/api/tim-kiem?keyword=';
     public function __construct()
     {
         $this->table = config('constants.TABLE_MOVIE');
         parent::__construct();
     }
     public function listItem($params = null, $options = null){
-        $result = null;
+        $result = [];
         if ($options['task'] == 'crawler-data') {
+
             if (!empty($params['page_from']) && !empty($params['page_to'])) {
-                $responses = Http::pool(fn ($pool) => 
-                    array_map(fn ($i) => $pool->get($params['url'] . '?page=' . $i), range($params['page_from'], $params['page_to']))
-                );
-                $result = array_merge(...array_map(fn ($response) => 
-                    array_column(optional($response->json())['items'] ?? [], '_id'), $responses
-                ));
+                if (str_contains($params['url'], 'ophim1.com')) {
+                    $responses = Http::pool(fn ($pool) => 
+                        array_map(fn ($i) => 
+                        $pool->get($params['url'] . '?page=' . $i), range($params['page_from'], $params['page_to']))
+                    );
+                    $result = array_merge(...array_map(fn ($response) => 
+                        optional($response->json())['items'] ?? [], $responses
+                    ));
+                }
+                else {
+                    $responses = Http::pool(fn ($pool) => 
+                        array_map(fn ($i) => 
+                        $pool->get($this->searchUrl . $params['url'] . '?page=' . $i), range($params['page_from'], $params['page_to']))
+                    );
+                    $result = array_merge(...array_map(fn ($response) => 
+                        optional($response->json())['data']['items'] ?? [], $responses
+                    ));
+                   
+                }
             }
             
-            $baseUrl    = 'https://ophim1.com/phim/id/';
-            $responses  = Http::pool(fn ($pool) => 
-                collect($result)->map(fn ($id) => $pool->get($baseUrl . $id))->all()
-            );
-            $movies = collect($responses)->map(fn ($response) => [
-                'id'        => optional($response->json())['movie']['_id'] ?? null,
-                'name'      => optional($response->json())['movie']['name'] ?? null,
-                'slug'      => optional($response->json())['movie']['slug'] ?? null,
+            $movies = collect($result)->map(fn ($response) => [
+                'name'      => optional($response)['name'] ?? null,
+                'slug'      => optional($response)['slug'] ?? null,
                 'existed'   => 0,
-            ])->filter(fn ($movie) => !empty($movie['id']) && !empty($movie['slug']))->values()->all();
-            
+            ])->toArray();
+
             $existingSlugs = self::whereIn('slug', array_column($movies, 'slug'))->pluck('slug')->toArray();
             $existingSlugs = array_flip($existingSlugs);
             

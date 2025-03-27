@@ -152,11 +152,11 @@
                                 <span>Item type:</span>
                             </li>
                             <li>
-                                <input id="type1" type="radio" name="type" value="single" {{$params['item']['type_movie'] == 'single' ? 'checked' : ''}}/>
+                                <input id="type1" type="radio" name="type" value="single" {{$params['item']['type'] == 'single' ? 'checked' : ''}}/>
                                 <label for="type1">Movie</label>
                             </li>
                             <li>
-                                <input id="type2" type="radio" name="type" value="series" {{$params['item']['type_movie'] == 'series' ? 'checked' : ''}}/>
+                                <input id="type2" type="radio" name="type" value="series" {{$params['item']['type'] == 'series' ? 'checked' : ''}}/>
                                 <label for="type2">TV Show</label>
                             </li>
                         </ul>

@@ -60,48 +60,7 @@
                 <!-- end stats -->
                 <!-- dashbox -->
                 <div class="col-12 col-xl-12">
-                    <div class="dashbox">
-                        <div class="dashbox__title">
-                            <h3>
-                                <div class="form__group">
-                                    <select class="js-example-basic-single choose-option" id="option" name="option">
-                                        <option value="" selected>--Choose Option --</option>
-                                        @foreach ($params['listOption'] as $key=>$option)
-                                        <option value="{{$option}}">{{$key}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </h3>
-                            <div class="col-12 col-sm-6 col-lg-3">
-                                <input type="text" class="form__input" id="search" name="search" placeholder="Search name or id_movie"/>
-                                <button class="main__title-link">Search</button>
-                            </div>
-                            <div class="dashbox__wrap">
-                                <a class="dashbox__refresh" href="#">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M21,11a1,1,0,0,0-1,1,8.05,8.05,0,1,1-2.22-5.5h-2.4a1,1,0,0,0,0,2h4.53a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4.77A10,10,0,1,0,22,12,1,1,0,0,0,21,11Z" />
-                                    </svg></a>
-                                <a class="dashbox__more save-movie" href="#">Add Auto</a>
-                            </div>
-                        </div>
-                        <div class="dashbox__table-wrap dashbox__table-wrap--1">
-                            <table class="main__table main__table--dash">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>TITLE</th>
-                                        <th>IMAGE</th>
-                                        <th>THUMBNAIL</th>
-                                        <th>RATING</th>
-                                        <th>RELEASE DATE</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                   
                 </div>
                 <!-- end dashbox -->
             </div>

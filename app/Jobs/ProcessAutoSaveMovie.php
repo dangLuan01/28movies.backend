@@ -46,7 +46,7 @@ class ProcessAutoSaveMovie implements ShouldQueue
                 'name'          => data_get($movie, 'name', ''),
                 'origin_name'   => data_get($movie, 'origin_name', ''),
                 'slug'          => data_get($movie, 'slug', ''),
-                'type_movie'    => data_get($movie, 'type', ''),
+                'type'          => data_get($movie, 'type', ''),
                 'runtime'       => data_get($movie, 'time', ''),
                 'quality'       => data_get($movie, 'quality', ''),
                 'imdb'          => data_get($movie, 'imdb.id', ''),

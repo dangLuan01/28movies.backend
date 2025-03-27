@@ -25,7 +25,6 @@ class ProductController extends AdminController
     {
         //$this->_params["item-per-page"]     = $this->getCookie('-item-per-page', 25);
         $this->_params['model']             = $this->model->listItem($this->_params, ['task' => "admin-index"]);
-       
         return view($this->_viewAction, ['params' => $this->_params]);
     }
     public function create(){
@@ -59,7 +58,7 @@ class ProductController extends AdminController
         $this->_params['id']        = $id;
         $this->model->saveItem($this->_params, ['task' => 'change-status']);
         
-        return redirect()->route($this->_params['prefix'] . '.' . $this->_params['controller'] . '.index')->with('notify', 'Cập nhật trạng thái thành công!');
+        return redirect()->back();
     }
     public function destroy(Request $request)
     {
@@ -74,5 +73,10 @@ class ProductController extends AdminController
         $this->crawler = new CrawlerModel();
         $this->_params['movies']  = $this->crawler->listItem($this->_params, ['task' => 'crawler-data']);
         return response()->json(['data' => $this->_params['movies']]);
+    }
+    public function storeCrawler(Request $request){
+        $this->model->saveItem($this->_params, ['task' => 'add-item-crawler']);
+        return response()->json(array('success' => true, 'message' => 'Thêm thành công'));
+        
     }
 }

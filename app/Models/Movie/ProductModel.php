@@ -5,6 +5,7 @@ namespace App\Models\Movie;
 use App\Models\BackendModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Jobs\ProcessAutoSaveMovie;
 
 class ProductModel extends BackendModel
 {
@@ -18,8 +19,13 @@ class ProductModel extends BackendModel
     public function listItem($params = null, $options = null)
     {
         if ($options['task'] == "admin-index") {
-            $query = self::with('poster')->paginate(10);
+            $query = self::with('poster');
+            if (!empty($params['search'])) {
+                $query = $query->where('origin_name', 'like', '%' . $params['search'] . '%');
+            }
+            $query = $query->orderByDesc('created_at')->paginate(10);
             $this->_data['items'] = $query;
+            $this->_data['total'] = $query->total();
         }
         return $this->_data;
     }
@@ -79,6 +85,15 @@ class ProductModel extends BackendModel
         if ($options['task'] == 'change-status') {
             $status = ($params['status'] == "1") ? '0' : '1';
             self::where($this->columnPrimaryKey(), $params[$this->columnPrimaryKey()])->update(['status' => $status]);
+        }
+        if ($options['task'] == 'add-item-crawler') {
+            if (!empty($params['movie_slug'])) {
+                $params['url'] = array_map(fn($url) => 'https://ophim1.com/phim/' . $url, $params['movie_slug']);
+
+                foreach ($params['url'] as $url) {
+                    ProcessAutoSaveMovie::dispatch($url);
+                }  
+            }
         }
     }
     public function category(){

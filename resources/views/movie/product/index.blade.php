@@ -12,7 +12,7 @@
             <div class="col-12">
                 <div class="main__title">
                     <h2>List Movies</h2>
-                    <span class="main__title-stat"> total</span>
+                    <span class="main__title-stat">{{$model['total']}} total</span>
                     <div class="main__title-wrap">
                         <!-- filter sort -->
                         <div class="filter" id="filter__sort">
@@ -31,9 +31,9 @@
                         </div>
                         <!-- end filter sort -->
                         <!-- search -->
-                        <form action="#" class="main__title-form">
-                            <input type="text" placeholder="Find movie / tv series.." />
-                            <button type="button">
+                        <form action="{{route('movie.product.index')}}" class="main__title-form" method="GET">
+                            <input type="text" name="search" placeholder="Find movie / tv series.." />
+                            <button type="submit">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="8.25998" cy="8.25995" r="7.48191" stroke="#2F80ED"
@@ -89,7 +89,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">{{$movie['type_movie']}}</div>
+                                    <div class="main__table-text">{{$movie['type']}}</div>
                                 </td>
                                 <td>
                                     <div class="main__table-text">{{$movie['release_date']}}</div>
@@ -145,7 +145,7 @@
             </div>
             <!-- end users -->
             <!-- paginator -->
-            {{ $model['items']->links('pagination::default') }}
+            {{ $model['items']->appends(request()->query())->links('pagination::default') }}
             <!-- end paginator -->
         </div>
     </div>

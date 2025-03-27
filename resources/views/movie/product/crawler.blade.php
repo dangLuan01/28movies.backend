@@ -43,17 +43,17 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form__group">
-                                    <input id="text" name="url" class="form__input" placeholder="Link" value="https://ophim1.com/danh-sach/phim-moi-cap-nhat"/>
+                                    <input id="text" name="url" class="form__input" placeholder="Link or search" value="https://ophim1.com/danh-sach/phim-moi-cap-nhat" required/>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" id="page_from" name="page_from" placeholder="From page (1)" />
+                                    <input type="number" class="form__input" id="page_from" name="page_from" placeholder="From page (1)" required/>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" id="page_to" name="page_to" placeholder="To page (10)" />
+                                    <input type="number" class="form__input" id="page_to" name="page_to" placeholder="To page (10)" required/>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -64,7 +64,8 @@
                     
                 </div>
             </form>
-            <form id="admin-crawler" action="">
+            <form id="admin-crawler" action="{{ route($params['prefix'] . '.' . $params['controller'] . '.store-crawler') }}">
+                
                 <div class="col-12 col-md-7 form__content">
                     <ul class="row form__radio show-movie movie-list">
                         <li>
@@ -110,15 +111,15 @@
                         if (movie.existed != 0) {
                             $('.show-movie').append(`
                             <li>
-                                <input id="movie_${index}" type="checkbox" name="movie_id" value="${movie.id}" disabled/>
-                                <label for="movie_${index}">${movie.name} (Đã có)</label>
+                                <input id="movie_${index}" type="checkbox" name="" value="${movie.id}" disabled/>
+                                <label for="movie_${index}">${movie.name} (Created)</label>
                             </li>
                         `);
                         }
                         else{
                             $('.show-movie').append(`
                             <li>
-                                <input id="movie_${index}" type="checkbox" name="movie_id" value="${movie.id}" checked/>
+                                <input id="movie_${index}" type="checkbox" name="movie_slug[]" value="${movie.slug}" checked/>
                                 <label for="movie_${index}">${movie.name}</label>
                             </li>
                         `);
@@ -143,7 +144,7 @@
             var formData = new FormData(this);
             $.ajax({
                 type: 'POST',
-                url: "{{ route($params['prefix'] . '.' . $params['controller'] . '.store') }}",
+                url: "{{ route($params['prefix'] . '.' . $params['controller'] . '.store-crawler') }}",
                 data: formData,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
