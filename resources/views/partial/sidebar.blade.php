@@ -22,6 +22,8 @@
             <li><a href="{{route('movie.product.index')}}" class="{{ Route::is('movie.product.index') || Route::is('movie.product.edit') ? 'active' : '' }}">List</a></li>
             <li><a href="{{route('movie.product.create')}}" class="{{ Route::is('movie.product.create') ? 'active' : '' }}">Add item</a></li>
             <li><a href="{{route('movie.product.crawler')}}" class="{{ Route::is('movie.product.crawler') ? 'active' : '' }}">Crawler</a></li>
+            <li><a href="{{route('movie.episode.create')}}" class="{{ Route::is('movie.episode.create') ? 'active' : '' }}">Create Episode</a></li>
+            <li><a href="{{route('movie.episode.create')}}" class="{{ Route::is('movie.episode.create') ? 'active' : '' }}">Create Episode</a></li>
         </ul>
     </li>
     <!-- end collapse -->

@@ -77,8 +77,15 @@ $(document).ready(function () {
   $("#country").select2({
     placeholder: "Choose country / countries",
   });
+  $("#movie").select2({
+    placeholder: "Choose movie",
+  });
   $("#hot").select2({
     placeholder: "Choose movies hot",
+  });
+
+  $("#episode").select2({
+    placeholder: "Choose episode",
   });
 
   $("#genre").select2({

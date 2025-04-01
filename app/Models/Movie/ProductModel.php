@@ -27,6 +27,12 @@ class ProductModel extends BackendModel
             $this->_data['items'] = $query;
             $this->_data['total'] = $query->total();
         }
+        if ($options['task'] == "list-item") {
+            $query = self::select('id', 'name')->get();
+            if ($query) {
+                $this->_data = $query->toArray();
+            }
+        }
         return $this->_data;
     }
     public function getItem($params = null, $options = null)
