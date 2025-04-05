@@ -47,11 +47,58 @@ class CrawlerModel extends BackendModel
             ])->toArray();
 
             $existingSlugs = self::whereIn('slug', array_column($movies, 'slug'))->pluck('slug')->toArray();
+           
             $existingSlugs = array_flip($existingSlugs);
-            
+           
             foreach ($movies as &$movie) {
                 if (isset($existingSlugs[$movie['slug']])) {
                     $movie['existed'] = 1;
+                }
+            }
+            $result = $movies;
+        }
+        if ($options['task'] == 'crawler-data-episode') {
+
+            if (!empty($params['page_from']) && !empty($params['page_to'])) {
+                if (str_contains($params['url'], 'ophim1.com')) {
+                    $responses = Http::pool(fn ($pool) => 
+                        array_map(fn ($i) => 
+                        $pool->get($params['url'] . '?page=' . $i), range($params['page_from'], $params['page_to']))
+                    );
+                    $result = array_merge(...array_map(fn ($response) => 
+                        optional($response->json())['items'] ?? [], $responses
+                    ));
+                }
+                else {
+                    $responses = Http::pool(fn ($pool) => 
+                        array_map(fn ($i) => 
+                        $pool->get($this->searchUrl . $params['url'] . '?page=' . $i), range($params['page_from'], $params['page_to']))
+                    );
+                    $result = array_merge(...array_map(fn ($response) => 
+                        optional($response->json())['data']['items'] ?? [], $responses
+                    ));
+                   
+                }
+            }
+            
+            $movies = collect($result)->map(fn ($response) => [
+                'name'              => optional($response)['name'] ?? null,
+                'slug'              => optional($response)['slug'] ?? null,
+                'episode_current'   => optional($response)['episode_current'] ?? null,
+                'existed'           => 0,
+            ])->toArray();
+
+            $existingSlugs = self::whereIn('slug', array_column($movies, 'slug'))->pluck('id','slug')->toArray();
+           
+            //$existingSlugs = array_flip($existingSlugs);
+                
+            foreach ($movies as &$movie) {
+                if (isset($existingSlugs[$movie['slug']])) {
+                    $movie['movie_id']      = $existingSlugs[$movie['slug']];
+                    $this->totalEpisode     = new EpisodeModel();
+                    $total_episode          = $this->totalEpisode->getItem($movie['movie_id'], ['task' => 'get-item-info']);
+                    $movie['now_episode']   = $total_episode;
+                    $movie['existed']       = 1;
                 }
             }
             $result = $movies;

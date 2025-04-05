@@ -42,9 +42,12 @@ class DashboardController extends AdminController
         return $this->model->saveItem($this->_params, ['task' => 'save-auto-movie']);
     }
     public function test(){
-        $result = null;
+        $result = Http::get('https://ophim1.com/phim/sieu-nang-lap-phuong-phan-1')->json();
 
 
-        return $result;
+        echo '<pre>';
+        print_r($result['episodes'][0]['server_data']);
+        echo '<pre>';
+        die();
     }
 }

@@ -23,6 +23,9 @@ Route::post('movie/product/crawler-data', [ProductController::class, 'crawlerDat
 Route::resource('movie/product', ProductController::class, ['as' => 'movie']);
 Route::get('movie/product/status/{status}/{id}', [ProductController::class, 'status'])->name('movie.product.status');
 //Episode
+Route::post('movie/episode/crawler-data', [EpisodeController::class, 'crawlerData'])->name('movie.episode.crawler-data');
+Route::get('movie/episode/crawler',[EpisodeController::class, 'crawler'])->name('movie.episode.crawler');
+Route::post('movie/episode/store-crawler', [EpisodeController::class, 'storeCrawler'])->name('movie.episode.store-crawler');
 Route::resource('movie/episode',EpisodeController::class,['as' => 'movie']);
 
 // Auth::routes();
