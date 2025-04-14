@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EpisodeModel extends BackendModel
 {
+    protected $fillable = ['id'];
     public function __construct()
     {
         $this->table = config('constants.TABLE_EPISODE');
@@ -20,11 +21,11 @@ class EpisodeModel extends BackendModel
            
             $result = $this->where('movie_id', $params)->count();
         }
+        
         return $result;
     }
     public function saveItem($params = null, $options = null){
         if ($options['task'] == 'add-item-crawler') {
-           
             if (!empty($params['movies'])) {
                 $params['movies']   = json_decode($params['movies'], true);
                 $params['urls']     = array_map(function ($movie) {
@@ -37,6 +38,38 @@ class EpisodeModel extends BackendModel
                     ProccessAutoSaveEpisode::dispatch($url['url'], $url['movie_id']);
                 }  
             }
+        }
+        if ($options['task'] == 'add-item') {
+            $movieId    = $params['movie_id'];
+            $episodes   = $params['episodes'];
+            $ep         = array_map(function ($episode, $hls) use ($movieId) {
+                return [
+                    'movie_id'  => $movieId,
+                    'episode'   => $episode,
+                    'hls'       => $hls,
+                    'server_id' => 1,
+                ];
+            }, $episodes['episode'], $episodes['hls']);
+            self::insert($ep);
+        }
+        if ($options['task'] == 'edit-item') {
+            $ep = array_map(function ($episode, $hls) use ($params) {
+                return [
+                    'movie_id'  => $params['id'],
+                    'episode'   => $episode,
+                    'hls'       => $hls,
+                    'server_id' => 1,
+                ];
+            }, $params['episodes']['episode'], $params['episodes']['hls']);
+            foreach ($ep as $value) {
+                $exits = self::where('movie_id', $value['movie_id'])->where('episode', $value['episode'])->first();
+                if ($exits) {
+                    $exits->update($value);
+                } else {
+                    self::insert($value);
+                }
+            }
+
         }
     }
 }

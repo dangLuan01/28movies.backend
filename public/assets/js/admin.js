@@ -87,6 +87,9 @@ $(document).ready(function () {
   $("#episode").select2({
     placeholder: "Choose episode",
   });
+  $(".episode").select2({
+    placeholder: "Choose",
+  });
 
   $("#genre").select2({
     placeholder: "Choose genre / genres",

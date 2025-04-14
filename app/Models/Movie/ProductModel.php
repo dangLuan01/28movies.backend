@@ -42,6 +42,15 @@ class ProductModel extends BackendModel
             
             $result = self::with('images', 'genres')->where($this->table . '.id', $params['id'])->first();
         }
+        if ($options['task'] == 'get-episode') {
+            $result = self::select('episode_total')->where($this->table . '.id', $params['movie_id'])->first();
+            if ($result) {
+                $result = $result->episode_total;
+            }
+        }
+        if ($options['task'] == 'get-item-episode') {
+            $result = self::select('id', 'name', 'episode_total')->with('episodes')->where($this->table . '.id', $params['id'])->first();
+        }
         return $result;
     }
     public function saveItem($params = null, $options = null){
@@ -113,5 +122,8 @@ class ProductModel extends BackendModel
     }
     public function genres(){
        return $this->belongsToMany(GenreModel::class, config('constants.TABLE_MOVIE_GENRE'), 'movie_id', 'genre_id');
+    }
+    public function episodes(){
+        return $this->hasMany(EpisodeModel::class, 'movie_id', 'id');
     }
 }

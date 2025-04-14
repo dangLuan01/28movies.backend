@@ -18,7 +18,7 @@ class BackendModel extends Model
                                     '_method',
                                     'ID',
                                     ];
-    protected $_data                  = [];
+    protected $_data        = [];
     public $timestamps      = false;
     public $checkall        = true;
 

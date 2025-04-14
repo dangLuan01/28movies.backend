@@ -28,8 +28,8 @@
                             <div class="col-12 col-lg-12">
                                 <label>Movie</label>
                                 <div class="form__group">
-                                    <select class="js-example-basic-multiple" id="movie" name="movie_id" >
-                                        <option value="">Choose movie</option>
+                                    <select class="js-example-basic-multiple" id="movie" name="movie_id" multiple="multiple">
+                                        <option value="" disabled>Choose movie</option>
                                         @foreach ($params['movie'] as $movie)
                                             <option value="{{ $movie['id'] }}">{{ $movie['name'] }}</option>
                                         @endforeach                                           
@@ -38,18 +38,19 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form__group">
                             <label>Episode</label>
-                            <select class="js-example-basic-single" id="episode" name="episode[]">
-                                <option value="1">1</option>
+                            <select class="js-example-basic-single" id="episode" name="episodes[episode][]">
+                               
                             </select>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form__group">
                             <label>Link</label>
-                            <input type="text" class="form__input" id="hls" name="hls[]" placeholder="Link url" value="" />
+                            <input type="text" class="form__input" id="hls" name="episodes[hls][]" placeholder="Link url" value="" />
                         </div>
                     </div>
                     <div class="col-1">
@@ -68,6 +69,48 @@
 </main>
 <script>
     $(document).ready(function() {
+        let episodeOptions = '';
+        function loadEpisodes(count) {
+            episodeOptions = '';
+            if (count != 1) {
+                for (let i = 1; i <= parseInt(count); i++) {
+                    episodeOptions += `<option value="${i}">Tập ${i}</option>`;
+                }
+            } else {
+                episodeOptions += `<option value="FHD">Full HD</option>
+                                   <option value="HD">HD</option>`;
+            }
+            $('#episode').each(function() {
+                if ($(this).children('option').length === 0) {
+                    $(this).html(episodeOptions);
+                }
+            });
+        }
+        $('#add-episode').on('click', function() {
+            const episodeGroup = `
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="form__group">
+                        <label>Episode</label>
+                        <select class="js-example-basic-single episode-select form__input" name="episodes[episode][]">
+                            ${episodeOptions}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form__group">
+                        <label>Link</label>
+                        <input type="text" class="form__input" name="episodes[hls][]" placeholder="Link url" value="" />
+                    </div>
+                </div>
+                <div class="col-1">
+                    <label></label>
+                    <button type="button" class="form__btn remove-episode">X</button>
+                </div>
+            `;
+            $(this).closest('.col-1').after(episodeGroup);
+            $('.js-example-basic-single').select2();
+        });
+
         $('#admin-{{ $params['prefix'] }}-form').submit(function(e) {
             
             // showLoadding();
@@ -104,7 +147,30 @@
                 }
             });
         });
-
+        $('#movie').change(function(){
+            const movieId = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: "{{ route($params['prefix'] . '.' . $params['controller'] . '.get-episode') }}",
+                data: {
+                    movie_id: movieId
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $('#episode').empty();
+                    loadEpisodes(response.data);
+                }
+            });
+        })
+        $(document).on('click', '.remove-episode', function() {
+            $(this).closest('.col-1').prev().remove(); 
+            $(this).closest('.col-1').prev().remove(); 
+            $(this).closest('.col-1').remove();     
+        });
     });
+    
+
 </script>
 @stop
