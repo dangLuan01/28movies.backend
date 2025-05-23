@@ -79,6 +79,7 @@ $(document).ready(function () {
   });
   $("#movie").select2({
     placeholder: "Choose movie",
+    maximumSelectionLength: 1,
   });
   $("#hot").select2({
     placeholder: "Choose movies hot",
@@ -142,6 +143,7 @@ $(document).ready(function () {
       $(galleryLabel).text($(this)[0].files[0].name);
     }
   });
+  $(".form__gallery-upload").val("");
 
   /*==============================
 	Scrollbar

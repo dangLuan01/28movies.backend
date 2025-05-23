@@ -31,7 +31,7 @@
                                     <label for="form__img-upload">Upload cover</label>
                                     <input id="form__img-upload" name="image_poster" type="file"
                                         accept=".png, .jpg, .jpeg" />
-                                    <img id="form__img" src="{{$params['item']['images']['0']['path'] . $params['item']['images']['0']['image'] ?? ''}}" alt="{{$params['item']['origin_name'] ?? ''}}" />
+                                    <img id="form__img" src="{{'https://wsrv.nl/?url=' . $params['item']['images']['0']['path'] . $params['item']['images']['0']['image'] ?? ''}}" alt="{{$params['item']['origin_name'] ?? ''}}" />
                                 </div>
                             </div>
                         </div>
@@ -41,6 +41,7 @@
                             <div class="col-12">
                                 <div class="form__group">
                                     <input type="text" class="form__input" name="name" id="name" placeholder="name" value="{{$params['item']['name'] ?? ''}}" />
+                                    <input type="hidden" name="slug" id="slug" value="{{$params['item']['slug'] ?? ''}}" />
                                 </div>
                             </div>
                             <div class="col-12">
@@ -50,7 +51,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form__group">
-                                    <textarea id="text" name="" class="form__textarea" placeholder="Description"></textarea>
+                                    <textarea id="text" name="content" class="form__textarea" placeholder="Content">{{$params['item']['content']}}</textarea>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
@@ -141,8 +142,9 @@
                             <div class="col-12">
                                 <div class="form__gallery">
                                     <label id="gallery1" for="form__gallery-upload">Upload thumbnail</label>
-                                    <input data-name="#gallery1" id="form__gallery-upload" name="image_thumb" class="form__gallery-upload" type="file" accept=".png, .jpg, .jpeg" multiple />
+                                    <input id="form__gallery-upload" name="image_thumb" class="form__gallery-upload" type="file" accept=".png, .jpg, .jpeg"/>
                                 </div>
+                                <input type="text" class="form__input"value="{{$params['item']['images']['1']['path'] . $params['item']['images']['1']['image']}}" />
                             </div>
                         </div>
                     </div>

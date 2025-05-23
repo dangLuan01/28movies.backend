@@ -38,7 +38,15 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="col-12 col-sm-3">
+                        <div class="form__group">
+                            <label>Server</label>
+                            <select class="js-example-basic-single episode" id="" name="">
+                               <option value="1">Server 1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col12 col-sm-12"></div>
                     <div class="col-12 col-sm-6 col-lg-3">
                         <div class="form__group">
                             <label>Episode</label>

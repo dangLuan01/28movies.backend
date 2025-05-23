@@ -46,6 +46,7 @@ class ProcessAutoSaveMovie implements ShouldQueue
                 'name'          => data_get($movie, 'name', ''),
                 'origin_name'   => data_get($movie, 'origin_name', ''),
                 'slug'          => data_get($movie, 'slug', ''),
+                'content'       => data_get($movie, 'content', ''),
                 'type'          => data_get($movie, 'type', ''),
                 'runtime'       => data_get($movie, 'time', ''),
                 'quality'       => data_get($movie, 'quality', ''),
@@ -89,13 +90,18 @@ class ProcessAutoSaveMovie implements ShouldQueue
                 }
                 MovieGenreModel::insert($movieGenres);
             }
+            $img_thumb = basename($item['movie']['thumb_url'] ?? '');
+            $img_poster = basename($item['movie']['poster_url'] ?? '');
+            $path = str_replace($img_thumb, '', $item['movie']['thumb_url']); 
             ImageModel::insert([
                 'movie_id'  => $insertGetId,
-                'image'     => $item['movie']['thumb_url'] ?? '',
+                'image'     => $img_thumb,
+                'path'      => $path,
             ]);  
             ImageModel::insert([
                 'movie_id'      => $insertGetId,
-                'image'         => $item['movie']['poster_url'] ?? '',
+                'image'         => $img_poster,
+                'path'          => $path,
                 'is_thumbnail'  => 1
             ]);  
            

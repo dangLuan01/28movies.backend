@@ -79,7 +79,7 @@ class ProductModel extends BackendModel
             return response()->json(array('success' => true, 'msg' => 'Thêm yêu cầu thành công!'));
         }
         if ($options['task'] == 'edit-item') {
-          
+             
             if(request()->hasFile('image_poster')){
                 $params['is_thumbnail'] = 0;
                 $this->image_poster     = new ImageModel();
@@ -90,12 +90,14 @@ class ProductModel extends BackendModel
                 $this->image_poster     = new ImageModel();
                 $this->image_poster->saveItem($params, ['task' => 'edit-item']);
             }
-           $params['updated_at'] = date('Y-m-d H:i:s');
-           $movie = $this->find($params[$this->primaryKey]);
-           $movie->genres()->sync($params['genre']);
-           $this->where($this->primaryKey, $params[$this->primaryKey])
-                ->update($this->prepareParams($params));
-           return response()->json(array('success' => true, 'msg' => 'Cập nhật yêu cầu thành công!'));
+            
+            $params['updated_at'] = date('Y-m-d H:i:s');
+            $movie = $this->find($params[$this->primaryKey]);
+            $movie->genres()->sync($params['genre']);
+            unset($params['is_thumbnail']);
+            $this->where($this->primaryKey, $params[$this->primaryKey])
+                    ->update($this->prepareParams($params));
+            return response()->json(array('success' => true, 'msg' => 'Cập nhật yêu cầu thành công!'));
         }
         if ($options['task'] == 'change-status') {
             $status = ($params['status'] == "1") ? '0' : '1';
