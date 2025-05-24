@@ -199,6 +199,7 @@
             // showLoadding();
             // $('.input-error').html('');
             // $('.form-group row p-0 m-0 mb-2 input').removeClass('is-invalid');
+            $('.spinner').show();
             e.preventDefault();
             var formData = new FormData(this);
             $.ajax({
@@ -214,6 +215,7 @@
                 success: (data) => {
                     // hideLoadding();
                     // toastr.success(data.message);
+                    $('.spinner').hide();
                     setTimeout(() => {
                          location.reload();
                     }, "1000");

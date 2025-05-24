@@ -26,6 +26,20 @@
             <li><a href="{{route('movie.episode.crawler')}}" class="{{ Route::is('movie.episode.crawler') ? 'active' : '' }}">Crawler Episode</a></li>
         </ul>
     </li>
+    <li class="sidebar__nav-item">
+        <a class="sidebar__nav-link {{ Route::is('movie.genre.index') || Route::is('movie.genre.create') ? 'sidebar__nav-link--active' : '' }}" data-toggle="collapse" href="#collapseMenu" role="button" aria-expanded="false" aria-controls="collapseMenu">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19,5.5H12.72l-.32-1a3,3,0,0,0-2.84-2H5a3,3,0,0,0-3,3v13a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V8.5A3,3,0,0,0,19,5.5Zm1,13a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5.5a1,1,0,0,1,1-1H9.56a1,1,0,0,1,.95.68l.54,1.64A1,1,0,0,0,12,7.5h7a1,1,0,0,1,1,1Z" />
+            </svg>
+            <span>Genre</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z" />
+            </svg>
+        </a>
+        <ul class="collapse sidebar__menu {{ Route::is('movie.genre.index') || Route::is('movie.genre.edit') ? 'show' : '' }}" id="collapseMenu">
+            <li><a href="{{route('movie.genre.index')}}" class="{{ Route::is('movie.genre.index') || Route::is('movie.genre.edit') ? 'active' : '' }}">List</a></li>
+        </ul>
+    </li>
     <!-- end collapse -->
     <li class="sidebar__nav-item">
         <a href="users.html" class="sidebar__nav-link">
