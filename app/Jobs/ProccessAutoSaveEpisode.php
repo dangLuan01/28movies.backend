@@ -52,6 +52,15 @@ class ProccessAutoSaveEpisode implements ShouldQueue
                     'server_id' => 1,
                 ];
             }
+            else {
+                // Update existing episode if needed
+                EpisodeModel::where('movie_id', $this->movie_id)
+                    ->where('episode', $episode['name'])
+                    ->update([
+                        'hls' => data_get($episode, 'link_m3u8', ''),
+                        'server_id' => 1,
+                    ]);
+            }
         }
         if (!empty($newEpisodes)) {
             EpisodeModel::insert($newEpisodes);
