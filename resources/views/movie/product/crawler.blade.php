@@ -102,7 +102,6 @@
                 contentType: false,
                 processData: false,
                 success: (data) => {
-                   console.log(data.data);
                    
                     $('.show-movie').empty().append(`
                         <li><span>List movies:</span></li>
@@ -141,6 +140,7 @@
         });
         $('#admin-crawler').submit(function(e) {
             e.preventDefault();
+            $('.spinner').show();
             var formData = new FormData(this);
             $.ajax({
                 type: 'POST',
@@ -153,7 +153,8 @@
                 contentType: false,
                 processData: false,
                 success: (data) => {
-                   
+                    $('.spinner').hide();
+                    alert('Crawled movies successfully!');
                 },
                 error: function(data) {
                     console.log(data);
