@@ -52,5 +52,6 @@ class DashboardModel extends BackendModel
                 ProcessAutoSaveMovie::dispatch($url);
             }            
         }
+        return response()->json(['Wating...'],200);
     }
 }
