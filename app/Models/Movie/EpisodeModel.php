@@ -52,6 +52,8 @@ class EpisodeModel extends BackendModel
                 ];
             }, $episodes['episode'], $episodes['hls']);
             self::insert($ep);
+            $this->movie = new ProductModel();
+            $this->movie->saveItem($params['movie_id'], ['task' => 'update-time']);
         }
         if ($options['task'] == 'edit-item') {
             

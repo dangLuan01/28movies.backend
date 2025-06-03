@@ -112,6 +112,11 @@ class ProductModel extends BackendModel
                 }  
             }
         }
+        if ($options['task'] == 'updated-time') {
+            self::where($this->columnPrimaryKey(), $params['movie_id'])->update([
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        }
     }
     public function category(){
         return $this->hasOne(CategoryModel::class,'id', 'category_id');
