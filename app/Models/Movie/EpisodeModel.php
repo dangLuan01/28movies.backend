@@ -42,17 +42,19 @@ class EpisodeModel extends BackendModel
         if ($options['task'] == 'add-item') {
             $movieId    = $params['movie_id'];
             $episodes   = $params['episodes'];
-            $ep         = array_map(function ($episode, $hls) use ($movieId) {
+            $server_id  = $params['server_id'];
+            $ep         = array_map(function ($episode, $hls) use ($movieId, $server_id) {
                 return [
                     'movie_id'  => $movieId,
                     'episode'   => $episode,
                     'hls'       => $hls,
-                    'server_id' => 1,
+                    'server_id' => $server_id,
                 ];
             }, $episodes['episode'], $episodes['hls']);
             self::insert($ep);
         }
         if ($options['task'] == 'edit-item') {
+            
             $ep = array_map(function ($episode, $hls) use ($params) {
                 return [
                     'movie_id'  => $params['id'],

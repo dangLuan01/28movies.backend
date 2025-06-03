@@ -12,4 +12,13 @@ class ServerModel extends BackendModel
         $this->table = config('constants.TABLE_SERVER');
         parent::__construct();
     }
+    public function listItem($params, $options){
+        if ($options['task'] == 'list-item') {
+            $query = self::select('id','name')->get();
+            if ($query) {
+                $this->_data = $query->toArray();
+            }
+        }
+        return $this->_data;
+    }
 }

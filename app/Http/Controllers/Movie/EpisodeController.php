@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Movie\CrawlerModel;
 use App\Models\Movie\EpisodeModel;
 use App\Models\Movie\ProductModel;
+use App\Models\Movie\ServerModel;
 use Illuminate\Http\Request;
 
 class EpisodeController extends AdminController
@@ -19,8 +20,10 @@ class EpisodeController extends AdminController
         parent::__construct($request);
     }
     public function create(){
-        $this->movie            = new ProductModel();
-        $this->_params['movie'] = $this->movie->listItem($this->_params, ['task' => 'list-item']);
+        $this->movie                = new ProductModel();
+        $this->server               = new ServerModel();
+        $this->_params['movie']     = $this->movie->listItem($this->_params, ['task' => 'list-item']);
+        $this->_params['server']    = $this->server->listItem($this->_params, ['task' => 'list-item']);
         return view($this->_viewAction, ['params' => $this->_params]);
     }
     public function edit ($id){

@@ -58,6 +58,7 @@
                                 <th>POSTER</th>
                                 <th>TITLE</th>
                                 <th>RATING</th>
+                                <th>HOT</th>
                                 <th>CATEGORY</th>
                                 <th>YEAR</th>
                                 <th>STATUS</th>
@@ -87,6 +88,9 @@
                                         </svg>
                                         {{$movie['rating']}}
                                     </div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" style="color: {{$movie['hot'] == 1 ? '#ff5733' : ''}}">{{$movie['hot'] == 1 ? 'Yes' : 'No'}}</div>
                                 </td>
                                 <td>
                                     <div class="main__table-text">{{$movie['type']}}</div>

@@ -41,8 +41,11 @@
                     <div class="col-12 col-sm-3">
                         <div class="form__group">
                             <label>Server</label>
-                            <select class="js-example-basic-single episode" id="" name="">
-                               <option value="1">Server 1</option>
+                            <select class="js-example-basic-single episode" id="server_id" name="server_id">
+                                @foreach ($params['server'] as $server)
+                                    <option value={{$server['id']}}>{{$server['name']}}</option>     
+                                @endforeach
+                               
                             </select>
                         </div>
                     </div>
