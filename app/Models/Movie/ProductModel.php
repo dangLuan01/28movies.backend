@@ -21,7 +21,8 @@ class ProductModel extends BackendModel
         if ($options['task'] == "admin-index") {
             $query = self::with('poster');
             if (!empty($params['search'])) {
-                $query = $query->where('origin_name', 'like', '%' . $params['search'] . '%');
+                $query = $query->where('origin_name', 'like', '%' . $params['search'] . '%')
+                ->orWhere('name', 'like', '%' . $params['search'] . '%');
             }
             $query = $query->orderByDesc('created_at')->paginate(10);
             $this->_data['items'] = $query;

@@ -84,7 +84,9 @@ $(document).ready(function () {
   $("#hot").select2({
     placeholder: "Choose movies hot",
   });
-
+  $('.select2').select2({
+    placeholder: "Choose option",
+  });
   $("#episode").select2({
     placeholder: "Choose episode",
   });
@@ -217,4 +219,11 @@ $(document).ready(function () {
       });
     }
   });
+
+  $(".slug").keyup(function() {
+  var Text = $(this).val();
+  Text = Text.toLowerCase();
+  Text = Text.replace(/[^a-zA-Z0-9]+/g,'-');
+  $("#slug").val(Text);        
+});
 });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Collection\CollectionController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Movie\EpisodeController;
 use App\Http\Controllers\Movie\ProductController;
@@ -32,6 +33,10 @@ Route::resource('movie/episode',EpisodeController::class,['as' => 'movie']);
 //Genre
 Route::resource('movie/genre', GenreController::class, ['as' => 'movie']);
 Route::get('movie/genre/status/{status}/{id}', [GenreController::class, 'status'])->name('movie.genre.status');
+
+//Collection
+Route::resource('movie/collection', CollectionController::class, ['as' => 'movie']);
+Route::get('movie/collection/status/{status}/{id}', [CollectionController::class, 'status'])->name('movie.collection.status');
 // Auth::routes();
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

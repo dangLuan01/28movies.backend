@@ -9,4 +9,6 @@ return [
     'TABLE_EPISODE'         => 'episodes',
     'TABLE_SERVER'          => 'movie_servers',
     'TABLE_MOVIE_COUNTRY'   => 'movie_countries',
+    'TABLE_COLLECTION'      => 'collections',
+    'TABLE_MOVIE_COLLECTION'      => 'movie_collections',
 ];
