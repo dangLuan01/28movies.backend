@@ -12,6 +12,15 @@ class CountryModel extends BackendModel
         $this->table = config('constants.TABLE_COUNTRY');
         parent::__construct();
     }
+    public function listItem($params = null, $options = null){
+        if ($options['task'] == 'get-all') {
+            $result = $this->get();
+            if ($result) {
+                $this->_data = $result->toArray();
+            }
+        }
+        return $this->_data;
+    }
     public function getItem($params = null, $options = null){
         $result = null;
         if ($options['task'] == 'get-all-country') {

@@ -54,7 +54,6 @@
                         <div class="form__group">
                             <label>Episode</label>
                             <select class="js-example-basic-single" id="episode" name="episodes[episode][]">
-                               
                             </select>
                         </div>
                     </div>

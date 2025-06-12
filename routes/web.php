@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Movie\EpisodeController;
 use App\Http\Controllers\Movie\ProductController;
 use App\Http\Controllers\Movie\GenreController;
+use App\Http\Controllers\Theme\ThemeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,9 @@ Route::get('movie/genre/status/{status}/{id}', [GenreController::class, 'status'
 Route::resource('movie/collection', CollectionController::class, ['as' => 'movie']);
 Route::get('movie/collection/status/{status}/{id}', [CollectionController::class, 'status'])->name('movie.collection.status');
 // Auth::routes();
+//Theme
+Route::resource('movie/theme', ThemeController::class, ['as' => 'movie']);
+Route::get('movie/theme/status/{status}/{id}', [ThemeController::class, 'status'])->name('movie.theme.status');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 //Route::post('/get-movie-tmdb', [DashboardController::class, 'getMovieTmdb'])->name('get-movie-tmdb');

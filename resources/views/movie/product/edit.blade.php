@@ -161,6 +161,10 @@
                                 <input id="type2" type="radio" name="type" value="series" {{$params['item']['type'] == 'series' ? 'checked' : ''}}/>
                                 <label for="type2">TV Show</label>
                             </li>
+                             <li>
+                                <input id="type2" type="radio" name="type" value="series" {{$params['item']['type'] == 'hoathinh' ? 'checked' : ''}}/>
+                                <label for="type2">Animate</label>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-12">

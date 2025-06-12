@@ -39,12 +39,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" name="name" id="name" placeholder="Title" />
+                                    <input type="text" class="form__input" name="name" id="name" placeholder="Title" required/>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" name="slug" id="slug" placeholder="Slug" />
+                                    <input type="text" class="form__input" name="slug" id="slug" placeholder="Slug" required/>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <select class="js-example-basic-single" id="quality" name="quality">
+                                    <select class="js-example-basic-single select2" id="quality" name="quality">
                                         <option value="FHD">FullHD</option>
                                         <option value="HD">HD</option>
                                     </select>
@@ -132,7 +132,7 @@
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
                                     <label>Hot</label>
-                                    <select class="js-example-basic-single" id="hot" name="hot">
+                                    <select class="js-example-basic-single select2" id="hot" name="hot">
                                         <option value="0" >Không</option>
                                         <option value="1">Có</option>
                                     </select>
@@ -158,6 +158,10 @@
                             <li>
                                 <input id="type2" type="radio" name="type" value="series"/>
                                 <label for="type2">TV Show</label>
+                            </li>
+                             <li>
+                                <input id="type3" type="radio" name="type" value="hoathinh"/>
+                                <label for="type3">Animate</label>
                             </li>
                         </ul>
                     </div>

@@ -29,7 +29,7 @@
                             <div class="col-12 col-lg-12">
                                 <label>Movie</label>
                                 <div class="form__group">
-                                    <select class="js-example-basic-multiple" id="movie" name="movie_id">   
+                                    <select class="js-example-basic-multiple select2" id="movie" name="movie_id">   
                                         <option value="{{$params['id']}}" selected>{{$params['movie']['name']}}</option>
                                     </select>
                                 </div>

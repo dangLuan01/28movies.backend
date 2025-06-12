@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'List Collection')
+@section('title', 'List Theme')
 @section('content')
 @php
     $model = $params['model']
@@ -11,9 +11,9 @@
             <!-- main title -->
             <div class="col-12">
                 <div class="main__title">
-                    <h2>List Collection</h2>
+                    <h2>List Theme</h2>
                     <span class="main__title-stat">{{$model['total']}} total</span>
-                    <a href="{{route('movie.collection.create')}}" class="main__title-link">add item</a>
+                    <a href="{{route('movie.theme.create')}}" class="main__title-link">add item</a>
                 </div>
             </div>
             <!-- end main title -->
@@ -24,29 +24,43 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>IMAGE</th>
                                 <th>NAME</th>
+                                <th>LAYOUT</th>
+                                <th>PRIORITY</th>
+                                <th>MOVIE LIMIT</th>
                                 <th>STATUS</th>
                                 <th>ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
                             
-                            @foreach ($model['items'] as $collection)
+                            @foreach ($model['items'] as $theme)
                             <tr>
                                 <td>
-                                    <div class="main__table-text">{{$collection['id']}}</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text"><img src="{{ 'https://wsrv.nl/?url=' . $collection['image'] ?? ''}}" alt="" width="110px" decoding="async"></div>
+                                    <div class="main__table-text">{{$theme['id']}}</div>
                                 </td>
                                 <td>
                                     <div class="main__table-text">
-                                        <a href="#">{{$collection['name']}}</a>
+                                        <a href="#">{{$theme['name']}}</a>
                                     </div>
                                 </td>
                                 <td>
-                                    @if ($collection['status'] != 0)
+                                    <div class="main__table-text">
+                                        {{ $theme['layout'] == 1 ? 'Paginate' : 'Owl-Carousel' }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text n">
+                                        {{$theme['priority']}}
+                                    </div>
+                                </td>
+                                 <td>
+                                    <div class="main__table-text n">
+                                        {{$theme['limit']}}
+                                    </div>
+                                </td>
+                                <td>
+                                    @if ($theme['status'] != 0)
                                     <div class="main__table-text main__table-text--green">
                                         Visible
                                     </div>
@@ -58,15 +72,15 @@
                                 </td>
                                 <td>
                                     <div class="main__table-btns">
-                                        <a href="{{route('movie.collection.status', ['status' => $collection['status'], 'id' => $collection['id']])}}"
+                                        <a href="{{route('movie.theme.edit', ['theme' => $theme['id']])}}" class="main__table-btn main__table-btn--edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z" />
+                                            </svg>
+                                        </a>
+                                        <a href="{{route('movie.theme.status', ['status' => $theme['status'], 'id' => $theme['id']])}}"
                                             class="main__table-btn main__table-btn--banned">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <path d="M12,13a1.49,1.49,0,0,0-1,2.61V17a1,1,0,0,0,2,0V15.61A1.49,1.49,0,0,0,12,13Zm5-4V7A5,5,0,0,0,7,7V9a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V12A3,3,0,0,0,17,9ZM9,7a3,3,0,0,1,6,0V9H9Zm9,12a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H17a1,1,0,0,1,1,1Z" />
-                                            </svg>
-                                        </a>
-                                        <a href="{{route('movie.collection.edit', ['collection' => $collection['id']])}}" class="main__table-btn main__table-btn--edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                <path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z" />
                                             </svg>
                                         </a>
                                         <a href="#modal-delete"

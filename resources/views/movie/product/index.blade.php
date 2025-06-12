@@ -32,7 +32,7 @@
                         <!-- end filter sort -->
                         <!-- search -->
                         <form action="{{route('movie.product.index')}}" class="main__title-form" method="GET">
-                            <input type="text" name="search" placeholder="Find movie / tv series.." />
+                            <input type="text" name="search" placeholder="Find movie / tv series.." value="{{ $_GET['search'] ?? '' }}"/>
                             <button type="submit">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -79,7 +79,7 @@
                                 </td>
                                 <td>
                                     <div class="main__table-text">
-                                        <a href="#">{{$movie['name']}}</a>
+                                        <a href="{{route('movie.product.edit', ['product' => $movie['id']])}}">{{$movie['name']}}</a>
                                     </div>
                                 </td>
                                 <td>
