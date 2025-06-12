@@ -28,7 +28,7 @@
                             <div class="col-12 col-lg-12">
                                 <label>Movie</label>
                                 <div class="form__group">
-                                    <select class="js-example-basic-multiple" id="movie" name="movie_id" multiple="multiple">
+                                    <select class="js-example-basic-multiple select2" id="movie" name="movie_id" multiple="multiple">
                                         <option value="" disabled>Choose movie</option>
                                         @foreach ($params['movie'] as $movie)
                                             <option value="{{ $movie['id'] }}">{{ $movie['name'] }}</option>

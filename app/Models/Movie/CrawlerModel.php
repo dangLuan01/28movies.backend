@@ -65,9 +65,22 @@ class CrawlerModel extends BackendModel
                         array_map(fn ($i) => 
                         $pool->get($params['url'] . '?page=' . $i), range($params['page_from'], $params['page_to']))
                     );
-                    $result = array_merge(...array_map(fn ($response) => 
+                    $results = array_merge(...array_map(fn ($response) => 
                         optional($response->json())['items'] ?? [], $responses
                     ));
+
+                    $movieUrls = array_map(fn ($item) => 
+                        "https://ophim1.com/phim/id/" . $item['_id'], $results
+                    );
+
+                    $movieResponses = Http::pool(fn ($pool) => 
+                        array_map(fn ($url) => $pool->get($url), $movieUrls)
+                    );
+                    $result = [];
+                    foreach ($results as $index => $item) {
+                        $movieData = optional($movieResponses[$index]->json())['movie'] ?? [];
+                        $result[] = array_merge($item, $movieData);
+                    }
                 }
                 else {
                     $responses = Http::pool(fn ($pool) => 
@@ -80,14 +93,17 @@ class CrawlerModel extends BackendModel
                    
                 }
             }
-            
+            //dd($result);
+            // foreach ($result as $re) {
+            //     dd($re['_id']);
+            //     $res = Http::get()
+            // }
             $movies = collect($result)->map(fn ($response) => [
                 'name'              => optional($response)['name'] ?? null,
                 'slug'              => optional($response)['slug'] ?? null,
-                'episode_current'   => optional($response)['episode_current'] ?? null,
-                'existed'           => 0,
+                'episode_current'   => optional($response)['episode_current'],
+                'existed'           => 0,   
             ])->toArray();
-
             $existingSlugs = self::whereIn('slug', array_column($movies, 'slug'))->pluck('id','slug')->toArray();
            
             //$existingSlugs = array_flip($existingSlugs);

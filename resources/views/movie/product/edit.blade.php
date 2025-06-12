@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <select class="js-example-basic-single" id="quality" name="quality">
+                                    <select class="js-example-basic-single select2" id="quality" name="quality">
                                         <option value="FullHD" {{$params['item']['quality'] == 'FHD' ? 'selected' : ''}}>FullHD</option>
                                         <option value="HD" {{$params['item']['quality'] == 'HD' ? 'selected' : ''}}>HD</option>
                                     </select>
@@ -133,8 +133,8 @@
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
                                     <label>Hot</label>
-                                    <select class="js-example-basic-single" id="hot" name="hot">
-                                        <option value="0" {{$params['item']['hot'] == null && $params['item']['hot'] == '0' ? 'selected' : ''}}>Không</option>
+                                    <select class="js-example-basic-single select2" id="hot" name="hot">
+                                        <option value="0" {{$params['item']['hot'] == null || $params['item']['hot'] == '0' ? 'selected' : ''}}>Không</option>
                                         <option value="1" {{$params['item']['hot'] == '1' ? 'selected' : ''}}>Có</option>
                                     </select>
                                 </div>

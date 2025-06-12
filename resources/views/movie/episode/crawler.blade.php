@@ -48,12 +48,12 @@
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="number" class="form__input" id="page_from" name="page_from" placeholder="From page (1)" required/>
+                                    <input type="number" class="form__input" id="page_from" name="page_from" placeholder="From page (1)" value="1" required/>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="number" class="form__input" id="page_to" name="page_to" placeholder="To page (10)" required/>
+                                    <input type="number" class="form__input" id="page_to" name="page_to" placeholder="To page (10)" value="1" required/>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -88,6 +88,7 @@
             // showLoadding();
             // $('.input-error').html('');
             // $('.form-group row p-0 m-0 mb-2 input').removeClass('is-invalid');
+            $('.spinner').show();
             e.preventDefault();
             var formData = new FormData(this);
             $.ajax({
@@ -101,6 +102,9 @@
                 contentType: false,
                 processData: false,
                 success: (data) => {
+                    console.log(data);
+                    
+                    $('.spinner').hide();
                     $('.show-movie').empty().append(`
                         <li><span>List movies:</span></li>
                     `);
@@ -109,7 +113,7 @@
                             $('.show-movie').append(`
                             <li>
                                 <input id="movie_${index}" type="checkbox" name="movie_slug[]" value="${movie.slug}" data-movie="${movie.movie_id}" />
-                                <label for="movie_${index}">${movie.name}-${movie.episode_current}/${movie.now_episode}</label>
+                                <label for="movie_${index}">${movie.name}-${movie.now_episode}/${movie.episode_current}</label>
                             </li>
                         `);
                         }
@@ -128,6 +132,7 @@
             });
         });
         $('#admin-crawler').submit(function(e) {
+            $('.spinner').show();
             e.preventDefault();
             var formData = new FormData(this);
             formData.delete('movie_slug[]');
@@ -151,6 +156,7 @@
                 contentType: false,
                 processData: false,
                 success: (data) => {
+                    $('.spinner').hide();
                    alert('Save success!');
                 },
                 error: function(data) {
