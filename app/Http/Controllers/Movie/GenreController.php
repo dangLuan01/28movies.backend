@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Models\Movie\GenreModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class GenreController extends AdminController
 {
@@ -16,7 +17,7 @@ class GenreController extends AdminController
         $this->model                        = new GenreModel();
         parent::__construct($request);
     }
-     public function index(Request $request)
+    public function index(Request $request)
     {
         //$this->_params["item-per-page"]     = $this->getCookie('-item-per-page', 25);
         $this->_params['model']             = $this->model->listItem($this->_params, ['task' => "admin-index"]);

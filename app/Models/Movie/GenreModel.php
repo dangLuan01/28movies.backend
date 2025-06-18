@@ -3,7 +3,6 @@
 namespace App\Models\Movie;
 
 use App\Models\BackendModel;
-use Illuminate\Database\Eloquent\Model;
 use Tes\LaravelGoogleDriveStorage\GoogleDriveService;
 
 class GenreModel extends BackendModel
@@ -31,7 +30,7 @@ class GenreModel extends BackendModel
         return $this->_data;
     }
     public function getItem($params = null, $options = null)
-    {
+    {   
         $result = null;
         if ($options['task'] == 'get-item-info') {
             $result = self::where($this->table . '.id', $params['id'])->first();
@@ -49,6 +48,9 @@ class GenreModel extends BackendModel
                 $params['image'] = 'https://drive.google.com/uc?id=' . $reponse->id;
             }
             $this->where($this->table . '.id', $params['id'])->update($this->prepareParams($params));
+            $params['key']      = "genre-homepage";
+            $this->cacheGenre   = new CacheGenreModel();
+            $this->cacheGenre->deleteItem($params, ['task' => 'delete-item']);
         }
         if ($options['task'] == 'change-status') {
             $params['status'] = ($params['status'] == "1") ? '0' : '1';
