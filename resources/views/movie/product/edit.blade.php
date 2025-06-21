@@ -75,7 +75,7 @@
                             
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" placeholder="Age" value="{{$params['item']['age'] ?? ''}}"/>
+                                    <input type="text" name="age" class="form__input" placeholder="Age" value="{{$params['item']['age'] ?? ''}}"/>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">

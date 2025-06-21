@@ -3,6 +3,8 @@
 namespace App\Models\Movie;
 
 use App\Models\BackendModel;
+use App\Models\Elasticsearch\ElasticsearchModel;
+use Elasticsearch\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Jobs\ProcessAutoSaveMovie;
@@ -11,6 +13,7 @@ class ProductModel extends BackendModel
 {
     protected $fillable = ['id'];
     public $crudNotAccepted = ['genre', 'image_poster', 'image_thumb'];    
+    protected Client $elasticsearch;
     public function __construct()
     {
         $this->table = config('constants.TABLE_MOVIE');
@@ -55,6 +58,7 @@ class ProductModel extends BackendModel
         return $result;
     }
     public function saveItem($params = null, $options = null){
+        
         if ($options['task'] == 'add-item') {
            
             $params['insert_id'] = $this->insertGetId($this->prepareParams($params));
@@ -80,11 +84,11 @@ class ProductModel extends BackendModel
             return response()->json(array('success' => true, 'msg' => 'Thêm yêu cầu thành công!'));
         }
         if ($options['task'] == 'edit-item') {
-             
+            
             if(request()->hasFile('image_poster')){
                 $params['is_thumbnail'] = 0;
                 $this->image_poster     = new ImageModel();
-                $this->image_poster->saveItem($params, ['task' => 'edit-item']);
+                $poster = $this->image_poster->saveItem($params, ['task' => 'edit-item']);
             }
             if(request()->hasFile('image_thumb')){
                 $params['is_thumbnail'] = 1;
@@ -98,6 +102,10 @@ class ProductModel extends BackendModel
             unset($params['is_thumbnail']);
             $this->where($this->primaryKey, $params[$this->primaryKey])
                     ->update($this->prepareParams($params));
+            // Update Elasticsearch
+            $params['poster'] = $poster ?? null;
+            $es = new ElasticsearchModel(app(Client::class));
+            $es->saveItem($this->prepareParams($params), ['task' => 'edit-item', 'id' => $params[$this->primaryKey]]);
             return response()->json(array('success' => true, 'msg' => 'Cập nhật yêu cầu thành công!'));
         }
         if ($options['task'] == 'change-status') {

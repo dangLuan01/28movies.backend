@@ -17,6 +17,7 @@ class ImageModel extends BackendModel
     
     public function saveItem($params = null, $options = null)
     {
+        $path = 'https://drive.google.com/uc?id=';
         $result = null;
         if ($options['task'] == 'add-item') {
            
@@ -52,9 +53,9 @@ class ImageModel extends BackendModel
                     return response()->json(array('success' => false, 'msg' => 'Thêm yêu cầu thất bại!'));
             }
             $this->where('movie_id', $params['id'])->where('is_thumbnail', $params['is_thumbnail'])
-                ->update(['image' => $reponse->id, 'path' => 'https://drive.google.com/uc?id=']);
-            
-            return response()->json(array('success' => true, 'msg' => 'Thêm yêu cầu thành công!'));
+                ->update(['image' => $reponse->id, 'path' => $path]);
+            $url = $path . $reponse->id;
+            return $url;
         }  
     }
 }

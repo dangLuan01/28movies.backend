@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Collection\CollectionController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Elasticsearch\ElasticsearchController;
 use App\Http\Controllers\Movie\EpisodeController;
 use App\Http\Controllers\Movie\ProductController;
 use App\Http\Controllers\Movie\GenreController;
@@ -50,3 +51,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/test', [DashboardController::class, 'test'])->name('test');
 
 
+Route::get('/es', [ElasticsearchController::class, 'search']);
