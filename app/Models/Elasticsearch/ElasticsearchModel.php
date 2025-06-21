@@ -31,12 +31,12 @@ class ElasticsearchModel extends BackendModel
     public function saveItem($params = null, $options = null)
     {
        if ($options['task'] == 'add-item') {
-            $params['insert_id'] = $this->es->index([
+            $this->es->index([
                 'index' => 'movies',
                 'id'    => $options['id'],
                 'body'  => $params,
             ]);
-            return $params['insert_id'];
+            return true;
         }
         if ($options['task'] == 'edit-item') {
             

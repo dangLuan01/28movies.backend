@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Elasticsearch\ElasticsearchModel;
 use App\Models\Movie\CountryModel;
 use App\Models\Movie\EpisodeModel;
 use App\Models\Movie\GenreModel;
@@ -16,7 +17,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
-
+use Elasticsearch\Client;
 class ProcessAutoSaveMovie implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -157,6 +158,18 @@ class ProcessAutoSaveMovie implements ShouldQueue
                 }
             }
             EpisodeModel::insert($episodes);
+            $data = [
+                'name'          => $movie['name'] ?? null,
+                'origin_name'   => $movie['origin_name'] ?? null,
+                'slug'          => $movie['slug'] ?? null,
+                'runtime'       => $movie['time'] ?? null,
+                'type'          => $movie['type'] ?? null,
+                'age'           => '16+',
+                'release_date'  => $movie['year'] ?? null,
+                'poster'        => $path . $img_thumb ?? null,
+            ];
+            $es = new ElasticsearchModel(app(Client::class));
+            $es->saveItem($data, ['task' => 'add-item', 'id' => $insertGetId]);
             //######## CRAWL FILE JSON ##########//
             // $item = Http::get($this->params)->json();
             // if (preg_match('/(\d+)/', $item['movie']['episode_total'], $matchess)) {
