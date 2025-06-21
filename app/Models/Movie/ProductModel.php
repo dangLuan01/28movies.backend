@@ -104,6 +104,7 @@ class ProductModel extends BackendModel
                     ->update($this->prepareParams($params));
             // Update Elasticsearch
             $params['poster'] = $poster ?? null;
+            $params['release_date'] = intval($params['release_date']) ;
             $es = new ElasticsearchModel(app(Client::class));
             $es->saveItem($this->prepareParams($params), ['task' => 'edit-item', 'id' => $params[$this->primaryKey]]);
             return response()->json(array('success' => true, 'msg' => 'Cập nhật yêu cầu thành công!'));
