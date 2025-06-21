@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class EpisodeController extends AdminController
 {
     protected $data = [];
-    public $model;
+    public $model,$movie, $server, $crawler, $episode;
     public function __construct(Request $request)
     {
         $this->model   = new EpisodeModel();
