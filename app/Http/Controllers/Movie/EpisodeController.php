@@ -27,9 +27,13 @@ class EpisodeController extends AdminController
         return view($this->_viewAction, ['params' => $this->_params]);
     }
     public function edit ($id){
-        $this->_params['id']    = $id;
-        $this->movie            = new ProductModel();
-        $this->_params['movie'] = $this->movie->getItem($this->_params, ['task' => 'get-item-episode']);
+        $this->_params['id']        = $id;
+        $this->movie                = new ProductModel();
+        $this->server               = new ServerModel();
+        $this->_params['servers']    = $this->server->listItem(null, ['task' => 'list-item']);
+        $this->_params['movie']     = $this->movie->getItem($this->_params, ['task' => 'get-item-episode']);
+        $this->_params['server']    = $this->model->getItem($this->_params, ['task' => 'get-item']);
+        
         return(view($this->_viewAction, ['params' => $this->_params]));
     }
     public function store(Request $request){
