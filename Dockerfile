@@ -16,6 +16,8 @@ WORKDIR /app
 
 COPY . /app
 
+COPY .env /app/.env
+
 RUN composer install --optimize-autoloader
 
 RUN chown -R www-data:www-data /app
