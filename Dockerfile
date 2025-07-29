@@ -6,13 +6,13 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     zip \
     unzip \
+    supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN apt-get install -y supervisor
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ COPY .env /app/.env
 
 RUN composer install --optimize-autoloader
 
-RUN chown -R www-data:www-data /app
+RUN chown -R www-data:www-data /app && chmod -R 755 /app
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
