@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-
 WORKDIR /app
 
 COPY . /app
@@ -21,12 +20,6 @@ COPY .env /app/.env
 
 RUN composer install --optimize-autoloader
 
-RUN chown -R www-data:www-data /app && chmod -R 755 /app
+RUN chown -R www-data:www-data /app/public
 
-RUN apt-get install supervisor -y
-
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-EXPOSE 9000
-
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+RUN chown -R www-data:www-data /app/storage
