@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     zip \
     unzip \
-    supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -23,6 +22,8 @@ COPY .env /app/.env
 RUN composer install --optimize-autoloader
 
 RUN chown -R www-data:www-data /app && chmod -R 755 /app
+
+RUN apt-get install supervisor -y
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
