@@ -1,0 +1,33 @@
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: laravel_app
+    working_dir: /app
+    # volumes:
+    #   - ./28movies.backend:/app
+    ports:
+      - "3000:9000"
+    networks:
+      - app-network
+    depends_on:
+      - db
+    env_file:
+      - .env
+  queue:
+    image: laravel-app
+    container_name: laravel_queue
+    working_dir: /app
+    command: php artisan queue:work --daemon --sleep=3 --tries=3 --timeout=60
+    networks:
+      - app-network
+    depends_on:
+      - app
+    restart: always
+    env_file:
+      - .env
+networks:
+  app-network:
+    external: true
+    name: app-network
