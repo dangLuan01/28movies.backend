@@ -20,6 +20,8 @@ services:
     command: php artisan queue:work --daemon --sleep=3 --tries=3 --timeout=60
     env_file:
       - .env
+    depends_on:
+      - app
     restart: always
     networks:
       - app-network
