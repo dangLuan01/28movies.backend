@@ -27,5 +27,5 @@ RUN chown -R www-data:www-data /app/public /app/storage
 # Mở port 8000
 EXPOSE 8000
 
-# Lệnh mặc định: php artisan serve
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["php", "-S", "serve", "0.0.0.0:8000", "-t", "public"]
+ 
