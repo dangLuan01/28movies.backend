@@ -27,5 +27,5 @@ RUN chown -R www-data:www-data /app/public /app/storage
 # Mở port 8000
 EXPOSE 8000
 
-CMD ["php", "-S", "serve", "0.0.0.0:8000", "-t", "public"]
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
  
