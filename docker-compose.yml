@@ -1,27 +1,32 @@
 services:
-  app:
+  admin:
     build:
       dockerfile: Dockerfile
-    image: laravel-app
-    container_name: laravel_app
+    image: app-admin
+    container_name: app_admin
     working_dir: /app
     # volumes:
     #   - ./28movies.backend:/app
+    ports:
+      - "9000"
     env_file:
       - .env
-    ports:
-      - "3000:9000"
+    environment:
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      VIRTUAL_PORT: ${VIRTUAL_PORT}
     networks:
       - app-network
   queue:
-    image: laravel-app
-    container_name: laravel_queue
+    image: app-admin
+    container_name: admin_queue
     working_dir: /app
     command: php artisan queue:work --daemon --sleep=3 --tries=3 --timeout=60
     env_file:
       - .env
     depends_on:
-      - app
+      - admin
     restart: always
     networks:
       - app-network
