@@ -22,6 +22,8 @@ COPY . .
 # Cài thư viện Laravel
 RUN composer install
 
+RUN chown -R www-data:www-data /app/public /app/storage
+
 # Mở port 8000
 EXPOSE 8000
 
