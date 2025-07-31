@@ -4,8 +4,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    zip \
-    unzip \
+    zip unzip curl git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -16,10 +15,6 @@ WORKDIR /app
 
 COPY . /app
 
-COPY .env /app/.env
-
 RUN composer install --optimize-autoloader
 
-RUN chown -R www-data:www-data /app/public
-
-RUN chown -R www-data:www-data /app/storage
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
