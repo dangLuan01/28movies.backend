@@ -28,15 +28,13 @@ class EpisodeModel extends BackendModel
                     return [
                         'server_id' => $serverId,
                         'episodes' => [
-                            'episode' => $serverGroup->pluck('episode')->toArray(),
+                            'episode' => $serverGroup->pluck('episode')->sortDesc()->toArray(),
                             'hls' => $serverGroup->pluck('hls')->toArray(),
                         ]
                     ];
                 })->values()->toArray(),
             ];
-
         }
-        
         return $result;
     }
     public function saveItem($params = null, $options = null){
@@ -82,8 +80,9 @@ class EpisodeModel extends BackendModel
                         'hls'       => $hls,
                     ];
                 }, $server['episodes']['episode'], $server['episodes']['hls']);
-                
+                $episodeNumber = [];
                 foreach ($episodes as $value) {
+                    $episodeNumber[] = $value['episode'];
                     // Kiểm tra bản ghi tồn tại dựa trên movie_id, server_id và episode
                     $exists = $this->where('movie_id', $value['movie_id'])
                         ->where('server_id', $value['server_id'])
@@ -93,14 +92,21 @@ class EpisodeModel extends BackendModel
                     if ($exists) {
                         // Cập nhật bản ghi nếu tồn tại
                         $exists->update([
-                            'hls' => $value['hls'], // Chỉ cập nhật hls, các trường khác giữ nguyên
+                            'episode'   => $value['episode'],
+                            'hls'       => $value['hls'],
                         ]);
                     } else {
                         // Thêm mới bản ghi nếu không tồn tại
                         $this->insert($value);
                     }
                 }
+
+                $this->where('movie_id', $movieId)
+                    ->where('server_id', $server['server_id'])
+                    ->whereNotIn('episode', $episodeNumber)
+                    ->delete();
             }
+
             return response()->json(['message' => 'Episodes updated successfully']);
 
         }
