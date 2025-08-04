@@ -10,8 +10,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - VIRTUAL_HOST=admin.nestphim.site
-      - LETSENCRYPT_HOST=admin.nestphim.site
+      - VIRTUAL_HOST=admin.xoailac.top
+      - LETSENCRYPT_HOST=admin.xoailac.top
       - LETSENCRYPT_EMAIL=ml2673572@gmail.com
       - VIRTUAL_PORT=8000
 
