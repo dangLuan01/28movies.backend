@@ -28,8 +28,8 @@
             <img src="{{url('assets/img/user.svg')}}" alt="" />
         </div>
         <div class="sidebar__user-title">
-            <span>Admin</span>
-            <p>Naul</p>
+            {{-- <span>Admin</span> --}}
+            <p>{{ Auth::user()->name }}</p>
         </div>
         <form class="sidebar__user-btn" action="/logout" method="post">
             @csrf
@@ -45,7 +45,7 @@
     @include('partial.sidebar')
     <!-- sidebar copyright -->
     <div class="sidebar__copyright">
-        © 28movies 2025. <br />
+        © xoailac 2025. <br />
     </div>
     <!-- end sidebar copyright -->
 </div>
