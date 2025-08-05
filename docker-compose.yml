@@ -14,7 +14,7 @@ services:
       - LETSENCRYPT_HOST=admin.xoailac.top
       - LETSENCRYPT_EMAIL=ml2673572@gmail.com
       - VIRTUAL_PORT=8000
-
+      - CLIENT_MAX_BODY_SIZE=10m
     networks:
       - app-network
   queue:
