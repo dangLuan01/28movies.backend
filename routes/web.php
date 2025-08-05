@@ -11,15 +11,29 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
+// Route::get('register', function () {
+//     return redirect()->route('dashboard');
+// });
+Auth::routes(
+    //['verify' => true],
+    ['register' => false],
+    ['reset' => false],
+    ['confirm' => false],
+    ['password.request' => false],
+    ['password.reset' => false],
+    ['password.email' => false],
+    ['password.confirm' => false],
 
-
-//Auth::routes(['verify' => true]);
+);
 
 Route::middleware(['auth:web'])->group(function () {
     // Route::resource('movie/article', 'Flight\ArticleController', ['as' => 'flight']);
     // Route::get('flight/article/status/{status}/{id}', [ArticleController::class, 'status'])->name('flight.article.status');
     // Route::post('flight/article/confirm-delete', [ArticleController::class, 'confirmDelete'])->name('flight.article.confirm-delete');
-});
+
 //Movie
 Route::get('movie/product/crawler',[ProductController::class, 'crawler'])->name('movie.product.crawler');
 Route::post('movie/product/store-crawler', [ProductController::class, 'storeCrawler'])->name('movie.product.store-crawler');
@@ -52,3 +66,5 @@ Route::get('/test', [DashboardController::class, 'test'])->name('test');
 
 
 Route::get('/es', [ElasticsearchController::class, 'search']);
+
+});
