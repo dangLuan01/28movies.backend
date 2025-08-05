@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{--CSRF Token--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="icon" href="/assets/icon/favicon-32x32.png" type="image/gif" sizes="32x32"> 
     <title>@yield('title', config('app.name', '@Master Layout'))</title>
     @include('partial.head')
     @include('partial.scripts')
