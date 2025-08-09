@@ -70,7 +70,7 @@ class CrawlerModel extends BackendModel
                     ));
 
                     $movieUrls = array_map(fn ($item) => 
-                        "https://ophim1.com/phim/id/" . $item['_id'], $results
+                        "https://ophim1.com/v1/api/phim/" . $item['slug'], $results
                     );
 
                     $movieResponses = Http::pool(fn ($pool) => 
