@@ -26,15 +26,18 @@
                 <!-- Server Block Container -->
                 <div id="server-container">
                     <!-- Server -->
+                    @php
+                        $totalServer = 0
+                    @endphp
                     @foreach ($params['server']['server'] as $index => $server)
-                     
+                        {{$totalServer++}}
                         <div class="server-block" data-server-index={{$index}}>
                         <button type="button" class="form__btn remove-server">Remove Server</button>
                         <div class="row">
                             <div class="col-12 col-sm-3">
                                 <div class="form__group">
                                     <label>Server</label>
-                                    <select class="js-example-basic-single form__input" name="server[0][server_id]">
+                                    <select class="js-example-basic-single form__input" name="server[{{$index}}][server_id]">
                                         @foreach ($params['servers'] as $s)
                                         <option value="{{$s['id']}}" 
                                         {{$s['id'] == $server['server_id'] ? 'selected' : ''}}>
@@ -99,8 +102,8 @@
         const episodeTotal = {{ $params['movie']['episode_total'] }}; // Số tập tối đa, thay bằng {{ $params['movie']['episode_total'] }} trong Blade
 
         let episodeOptions = '';
-        let serverCount = 1; // Đếm số server để tạo index cho name
-
+        let serverCount = {{$totalServer}}; 
+        
         // Hàm tạo options cho episode
         function loadEpisodes(count) {
             episodeOptions = '';

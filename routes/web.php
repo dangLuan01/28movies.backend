@@ -23,7 +23,7 @@ Auth::routes(
     ['reset' => false],
     ['confirm' => false],
     ['password.request' => false],
-    ['password.reset' => false],
+    ['password.reset' => false],    
     ['password.email' => false],
     ['password.confirm' => false],
 

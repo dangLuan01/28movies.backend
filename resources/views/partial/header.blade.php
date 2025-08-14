@@ -29,7 +29,7 @@
         </div>
         <div class="sidebar__user-title">
             {{-- <span>Admin</span> --}}
-            <p>{{ Auth::user()->name }}</p>
+            <p>{{ Auth::user()->name ?? '' }}</p>
         </div>
         <form class="sidebar__user-btn" action="/logout" method="post">
             @csrf
