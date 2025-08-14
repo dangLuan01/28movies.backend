@@ -69,8 +69,11 @@ class EpisodeModel extends BackendModel
             $this->movie->saveItem($params['movie_id'], ['task' => 'update-time']);
         }
         if ($options['task'] == 'edit-item') {
+         
             $movieId = $params['id'];
+            $serverNumber = [];
             foreach ($params['server'] as $server) {
+                $serverNumber[] = $server['server_id']; 
                 // Ánh xạ episode và hls thành mảng bản ghi
                 $episodes = array_map(function ($episode, $hls) use ($movieId, $server) {
                     return [
@@ -105,7 +108,12 @@ class EpisodeModel extends BackendModel
                     ->where('server_id', $server['server_id'])
                     ->whereNotIn('episode', $episodeNumber)
                     ->delete();
+               
             }
+          
+            $this->where('movie_id', $movieId)
+                ->whereNotIn('server_id', $serverNumber)
+                ->delete();
 
             return response()->json(['message' => 'Episodes updated successfully']);
 
