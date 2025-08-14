@@ -6,6 +6,7 @@ use App\Http\Controllers\Elasticsearch\ElasticsearchController;
 use App\Http\Controllers\Movie\EpisodeController;
 use App\Http\Controllers\Movie\ProductController;
 use App\Http\Controllers\Movie\GenreController;
+use App\Http\Controllers\Streaming\StreamingController;
 use App\Http\Controllers\Theme\ThemeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +58,9 @@ Route::get('movie/collection/status/{status}/{id}', [CollectionController::class
 //Theme
 Route::resource('movie/theme', ThemeController::class, ['as' => 'movie']);
 Route::get('movie/theme/status/{status}/{id}', [ThemeController::class, 'status'])->name('movie.theme.status');
-
+//Streaming
+Route::resource('movie/streaming', StreamingController::class, ['as' => 'movie']);
+// Route::get('movie/strea/status/{status}/{id}', [ThemeController::class, 'status'])->name('movie.theme.status');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 //Route::post('/get-movie-tmdb', [DashboardController::class, 'getMovieTmdb'])->name('get-movie-tmdb');
 //Route::post('/save-auto-movie', [DashboardController::class, 'saveAutoMovie'])->name('save-auto-movie');
