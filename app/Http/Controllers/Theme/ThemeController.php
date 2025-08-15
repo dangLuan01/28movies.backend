@@ -49,7 +49,7 @@ class ThemeController extends AdminController
         return(view($this->_viewAction, ['params' => $this->_params]));
     }
     public function update(Request $request){
-         if (isset($this->_params['_method']) && $this->_params['_method'] == 'PUT') {
+        if (isset($this->_params['_method']) && $this->_params['_method'] == 'PUT') {
             $this->model->saveItem($this->_params, ['task' => 'edit-item']);
         }
         return response()->json(array('success' => true, 'message' => 'Cập nhật thành công'));

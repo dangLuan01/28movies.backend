@@ -35,11 +35,11 @@ class StreamingModel extends BackendModel
     }
 
     public function saveItem ($params = null, $options = null){
-        $path = 'https://drive.google.com/uc?id=';
+        
         $result = null;
         if ($options['task'] == 'add-item') {
 
-            $file   = request()->file('url');
+            $file   = request()->file('hls');
            
             $reponse = GoogleDriveService::uploadFile($file, env('GOOGLE_DRIVE_FOLDER_ID_STREAMING'));
             if (!$reponse->id) {
@@ -48,18 +48,26 @@ class StreamingModel extends BackendModel
 
             $result = [
                 'name'  =>  $params['name'],
-                'url'   =>  $path . $reponse->id,
+                'url'   =>  $reponse->id,
             ];
             $this->insert($result);
 
             return response()->json(array('success' => true, 'msg' => 'Thêm yêu cầu thành công!'));
         }
         if ($options['task'] == 'edit-item') {
-            $this->where($this->table . '.id', $params['id'])->update($this->prepareParams($params));
+            $file       = request()->file('hls');
+            $reponse    = GoogleDriveService::uploadFile($file, env('GOOGLE_DRIVE_FOLDER_ID_STREAMING'));
+            if (!$reponse->id) {
+                return response()->json(array('success' => false, 'msg' => 'Thêm yêu cầu thất bại!'));
+            }
+
+            $result = [
+                'name'  =>  $params['name'],
+                'url'   =>  $reponse->id,
+            ];
+
+            $this->where($this->table . '.id', $params['id'])->update($result);
+            return response()->json(array('success' => true, 'msg' => 'Thêm yêu cầu thành công!'));
         }
-        // if ($options['task'] == 'change-status') {
-        //     $status = ($params['status'] == "1") ? '0' : '1';
-        //     $this->where($this->columnPrimaryKey(), $params[$this->columnPrimaryKey()])->update(['status' => $status]);
-        // }
     }
 }

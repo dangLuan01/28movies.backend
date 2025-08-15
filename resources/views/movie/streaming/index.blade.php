@@ -38,12 +38,12 @@
                                 </td>
                                 <td>
                                     <div class="main__table-text">
-                                        <a href="#">{{$streaming['name']}}</a>
+                                        <a href="{{route('movie.streaming.edit', ['streaming' => $streaming['id']])}}">{{$streaming['name']}}</a>
                                     </div>
                                 </td>
                                  <td>
                                     <div class="main__table-text">
-                                        <a href="#">{{$streaming['url']}}</a>
+                                       {{url('/proxy'). '?id=' . $streaming['url']}}
                                     </div>
                                 </td>
                                 <td>

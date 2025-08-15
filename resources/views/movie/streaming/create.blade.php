@@ -42,7 +42,7 @@
                            <div class="col-12">
                                 <div class="form__gallery">
                                     <label id="gallery1" for="form__gallery-upload">Upload file</label>
-                                    <input data-name="#gallery1" id="form__gallery-upload" name="url" class="form__gallery-upload" type="file" accept=".m3u8" />
+                                    <input data-name="#gallery1" id="form__gallery-upload" name="hls" class="form__gallery-upload" type="file" accept=".m3u8" />
                                 </div>
                             </div>                          
                         </div>
