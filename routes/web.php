@@ -6,11 +6,12 @@ use App\Http\Controllers\Elasticsearch\ElasticsearchController;
 use App\Http\Controllers\Movie\EpisodeController;
 use App\Http\Controllers\Movie\ProductController;
 use App\Http\Controllers\Movie\GenreController;
+use App\Http\Controllers\ProxyController;
 use App\Http\Controllers\Streaming\StreamingController;
 use App\Http\Controllers\Theme\ThemeController;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -71,3 +72,5 @@ Route::get('/test', [DashboardController::class, 'test'])->name('test');
 Route::get('/es', [ElasticsearchController::class, 'search']);
 
 });
+
+Route::get('/proxy', [ProxyController::class, 'proxy']);
