@@ -195,7 +195,7 @@
 </main>
 <script>
     $(document).ready(function() {
-        $('#admin-{{ $params['prefix'] }}-form').submit(function(e) {
+        $('#admin-{{ $params["prefix"] }}-form').submit(function(e) {
             
             // showLoadding();
             // $('.input-error').html('');

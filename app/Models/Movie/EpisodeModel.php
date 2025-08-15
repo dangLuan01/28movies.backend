@@ -108,12 +108,12 @@ class EpisodeModel extends BackendModel
                     ->where('server_id', $server['server_id'])
                     ->whereNotIn('episode', $episodeNumber)
                     ->delete();
-               
             }
-          
-            $this->where('movie_id', $movieId)
-                ->whereNotIn('server_id', $serverNumber)
-                ->delete();
+            if ($serverNumber != []) {
+                $this->where('movie_id', $movieId)
+                    ->whereNotIn('server_id', $serverNumber)
+                    ->delete();
+            }
 
             return response()->json(['message' => 'Episodes updated successfully']);
 
