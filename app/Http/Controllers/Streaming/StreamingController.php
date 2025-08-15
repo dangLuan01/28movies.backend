@@ -28,4 +28,18 @@ class StreamingController extends AdminController
         $this->model->saveItem($this->_params, ['task' => 'add-item']);
         return response()->json(array('success' => true, 'message' => 'Thêm thành công'));
     }
+
+    public function edit($id){
+        $this->_params['id'] = $id;
+        $this->_params['item'] = $this->model->getItem($this->_params, ['task'=> 'get-info']);
+        return(view($this->_viewAction, ['params' => $this->_params]));
+    }
+
+    public function update(Request $request){
+        if (isset($this->_params['_method']) && $this->_params['_method'] == 'PUT') {
+            $this->model->saveItem($this->_params, ['task' => 'edit-item']);
+        }
+        
+        return response()->json(array('success' => true, 'message' => 'Thêm thành công'));
+    }
 }

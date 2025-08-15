@@ -41,7 +41,7 @@ class ProxyController extends Controller
                 flush();
             }
         }, 200, [
-            'Content-Type' => $response->header('Content-Type', 'application/octet-stream'),
+            'Content-Type' =>  'application/vnd.apple.mpegurl',
             'Access-Control-Allow-Origin' => '*',
         ]);
     }
