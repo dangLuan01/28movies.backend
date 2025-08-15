@@ -69,11 +69,12 @@ class EpisodeModel extends BackendModel
             $this->movie->saveItem($params['movie_id'], ['task' => 'update-time']);
         }
         if ($options['task'] == 'edit-item') {
-         
+
             $movieId = $params['id'];
             $serverNumber = [];
+           
             foreach ($params['server'] as $server) {
-                $serverNumber[] = $server['server_id']; 
+                $serverNumber[] = $server['server_id'];
                 // Ánh xạ episode và hls thành mảng bản ghi
                 $episodes = array_map(function ($episode, $hls) use ($movieId, $server) {
                     return [
@@ -84,26 +85,29 @@ class EpisodeModel extends BackendModel
                     ];
                 }, $server['episodes']['episode'], $server['episodes']['hls']);
                 $episodeNumber = [];
+               
                 foreach ($episodes as $value) {
-                    $episodeNumber[] = $value['episode'];
-                    // Kiểm tra bản ghi tồn tại dựa trên movie_id, server_id và episode
+                    $episodeNumber[] = $value['episode']; 
+                   
                     $exists = $this->where('movie_id', $value['movie_id'])
                         ->where('server_id', $value['server_id'])
                         ->where('episode', $value['episode'])
                         ->first();
 
                     if ($exists) {
-                        // Cập nhật bản ghi nếu tồn tại
-                        $exists->update([
-                            'episode'   => $value['episode'],
-                            'hls'       => $value['hls'],
-                        ]);
+                        $this->where('movie_id', $value['movie_id'])
+                            ->where('server_id', $value['server_id'])
+                            ->where('episode', $value['episode'])
+                            ->update([
+                                'episode'   => $value['episode'],
+                                'hls'       => $value['hls'],
+                            ]);
                     } else {
-                        // Thêm mới bản ghi nếu không tồn tại
+
                         $this->insert($value);
                     }
                 }
-
+                
                 $this->where('movie_id', $movieId)
                     ->where('server_id', $server['server_id'])
                     ->whereNotIn('episode', $episodeNumber)
