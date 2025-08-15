@@ -99,10 +99,10 @@
 <script>
     $(document).ready(function() {
          // Dữ liệu mẫu từ PHP (giả lập $params['movie']['episode_total'])
-        const episodeTotal = {{ $params['movie']['episode_total'] }}; // Số tập tối đa, thay bằng {{ $params['movie']['episode_total'] }} trong Blade
+        const episodeTotal = "{{ $params['movie']['episode_total'] }}"; // Số tập tối đa, thay bằng {{ $params['movie']['episode_total'] }} trong Blade
 
         let episodeOptions = '';
-        let serverCount = {{$totalServer}}; 
+        let serverCount = "{{$totalServer}}"; 
         
         // Hàm tạo options cho episode
         function loadEpisodes(count) {
@@ -211,7 +211,7 @@
             }
         });
 
-        $('#admin-{{ $params['prefix'] }}-form').submit(function(e) {
+        $('#admin-{{ $params["prefix"] }}-form').submit(function(e) {
             
             // showLoadding();
             // $('.input-error').html('');
