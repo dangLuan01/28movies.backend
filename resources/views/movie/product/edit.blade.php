@@ -41,12 +41,16 @@
                             <div class="col-12">
                                 <div class="form__group">
                                     <input type="text" class="form__input" name="name" id="name" placeholder="name" value="{{$params['item']['name'] ?? ''}}" />
-                                    <input type="hidden" name="slug" id="slug" value="{{$params['item']['slug'] ?? ''}}" />
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form__group">
                                     <input type="text" class="form__input" name="origin_name" id="origin_name" placeholder="Origin name" value="{{$params['item']['origin_name'] ?? ''}}"/>
+                                </div>
+                            </div>
+                             <div class="col-12">
+                                <div class="form__group">
+                                    <input type="text" class="form__input" name="slug" id="slug" placeholder="Slug" value="{{$params['item']['slug'] ?? ''}}" />
                                 </div>
                             </div>
                             <div class="col-12">
@@ -198,7 +202,7 @@
 </form>
 <script>
     $(document).ready(function() {
-        $('#admin-{{ $params['prefix'] }}-form').submit(function(e) {
+        $('#admin-{{ $params["prefix"] }}-form').submit(function(e) {
             
             // showLoadding();
             // $('.input-error').html('');
