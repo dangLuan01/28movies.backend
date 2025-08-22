@@ -83,7 +83,7 @@ class ProxyController extends Controller
         return response($data, $response->status())
             ->withHeaders([
                 'Content-Type' => $response->header('Content-Type', 'application/octet-stream'),
+                'Access-Control-Allow-Origin' => 'https://www.xoailac.top',
         ]);
-
     }
 }
