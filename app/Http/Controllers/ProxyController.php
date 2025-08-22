@@ -45,4 +45,45 @@ class ProxyController extends Controller
             'Access-Control-Allow-Origin' => '*',
         ]);
     }
+
+    function proxys(Request $request) {
+        $url = $request->query('url');
+        if (!$url) {
+            return response('Missing url', 400);
+        }
+
+        $url = urldecode($url);
+        $url = str_replace(' ', '+', $url);
+
+        // Giới hạn dung lượng 10MB
+        $MAX_SIZE = 10 * 1024 * 1024; // 10MB
+
+        $response = Http::withHeaders([
+            'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36',
+            'Referer'    => 'https://goatembed.com/',
+            'Origin'     => 'https://goatembed.com',
+            'Accept'     => '*/*',
+        ])->withOptions(['stream' => true])->get($url);
+
+        $bodyStream = $response->toPsrResponse()->getBody();
+
+        $data = '';
+        $downloaded = 0;
+
+        while (!$bodyStream->eof()) {
+            $chunk = $bodyStream->read(8192); // đọc từng chunk ~8KB
+            $downloaded += strlen($chunk);
+
+            if ($downloaded > $MAX_SIZE) {
+                return response('File too large (limit 10MB)', 413);
+            }
+            $data .= $chunk;
+        }
+
+        return response($data, $response->status())
+            ->withHeaders([
+                'Content-Type' => $response->header('Content-Type', 'application/octet-stream'),
+        ]);
+
+    }
 }
