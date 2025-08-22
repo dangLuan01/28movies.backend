@@ -74,3 +74,4 @@ Route::get('/es', [ElasticsearchController::class, 'search']);
 });
 
 Route::get('/proxy', [ProxyController::class, 'proxy']);
+Route::middleware('throttle:60,1')->get('proxys',[ProxyController::class, 'proxys']);
