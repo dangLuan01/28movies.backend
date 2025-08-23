@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Movie\EpisodeModel;
+use App\Models\Movie\ProductModel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
@@ -17,8 +18,7 @@ class ProccessAutoSaveEpisode implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    protected $params;
-    protected $movie_id;
+    protected $params, $movie_id, $episode;
     public $tries = 3;
     public function __construct($params, $movie_id)
     {
@@ -44,10 +44,10 @@ class ProccessAutoSaveEpisode implements ShouldQueue
 
         $newEpisodes = [];
         foreach ($serverData as $episode) {
-            if (!in_array($episode['name'], $existingEpisodes)) {
+            if (!in_array($episode['slug'], $existingEpisodes)) {
                 $newEpisodes[] = [
                     'movie_id'  => $this->movie_id,
-                    'episode'   => $episode['name'],
+                    'episode'   => $episode['slug'],
                     'hls'       => data_get($episode, 'link_m3u8', ''),
                     'server_id' => 1,
                 ];
@@ -55,10 +55,14 @@ class ProccessAutoSaveEpisode implements ShouldQueue
             else {
                 // Update existing episode if needed
                 EpisodeModel::where('movie_id', $this->movie_id)
-                    ->where('episode', $episode['name'])
+                    ->where('episode', $episode['slug'])
                     ->update([
                         'hls' => data_get($episode, 'link_m3u8', ''),
                         'server_id' => 1,
+                    ]);
+                ProductModel::where('id', $this->movie_id)
+                    ->update([
+                        'updated_at' => date('Y-m-d H:i:s')
                     ]);
             }
         }
