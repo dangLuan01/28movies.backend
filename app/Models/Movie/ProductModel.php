@@ -107,6 +107,10 @@ class ProductModel extends BackendModel
             $params['release_date'] = intval($params['release_date']) ;
             $es = new ElasticsearchModel(app(Client::class));
             $es->saveItem($this->prepareParams($params), ['task' => 'edit-item', 'id' => $params[$this->primaryKey]]);
+            // Delete cache redis
+            $params['key'] = 'movie:slug='.$params['slug'].':type='.$params['type'];
+            $rd = new CacheGenreModel();
+            $rd->deleteItem($params, ['task' => 'delete-item']);
             return response()->json(array('success' => true, 'msg' => 'Cập nhật yêu cầu thành công!'));
         }
         if ($options['task'] == 'change-status') {
