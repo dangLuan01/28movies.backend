@@ -18,7 +18,9 @@ class ProccessAutoSaveEpisode implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    protected $params, $movie_id, $episode;
+    protected $params;
+    protected $movie_id;
+    protected $episode;
     public $tries = 3;
     public function __construct($params, $movie_id)
     {
