@@ -26,7 +26,6 @@ class ProcessAutoSaveMovie implements ShouldQueue
      * Create a new job instance.
      */
     protected $params;
-    protected $movie;
     public $tries = 3;
     public function __construct($params)
     {
