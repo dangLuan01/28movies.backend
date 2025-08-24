@@ -20,7 +20,6 @@ class ProccessAutoSaveEpisode implements ShouldQueue
      */
     protected $params;
     protected $movie_id;
-    protected $episode;
     public $tries = 3;
     public function __construct($params, $movie_id)
     {
