@@ -48,12 +48,17 @@ class ProcessAutoSaveMovie implements ShouldQueue
              if (preg_match('/<p>(.*?)<\/p>/s', $item['movie']['content'], $matches)) {
                 $content = $matches[1]; 
             }
+            if ($movie['type'] == 'hoathinh' && $episode_total > 1) {
+                $type = 'series';
+            } else if ($movie['type'] == 'hoathinh' && $episode_total == 1 ) {
+                $type = 'single';
+            }
             $insertGetId = ProductModel::insertGetId([
                 'name'          => data_get($movie, 'name', ''),
                 'origin_name'   => data_get($movie, 'origin_name', ''),
                 'slug'          => data_get($movie, 'slug', ''),
                 'content'       => $content ?? data_get($movie, 'content', ''),
-                'type'          => data_get($movie, 'type', ''),
+                'type'          => $type ?? data_get($movie, 'type', ''),
                 'runtime'       => data_get($movie, 'time', ''),
                 'quality'       => data_get($movie, 'quality', ''),
                 'imdb'          => data_get($movie, 'imdb.id', ''),
