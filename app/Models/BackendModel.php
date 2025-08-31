@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class BackendModel extends Model
 {
@@ -46,4 +47,22 @@ class BackendModel extends Model
         
         return array_diff_key($params, array_flip($crudNotAccepted));
     }
+
+     public function uploadToR2($params, $r2FilePath, $image) {
+       
+        $fileContents = file_get_contents($image);
+       
+        $upload = Storage::disk('r2-' . $params['prefix'])->put($r2FilePath, $fileContents);
+        
+        if ($upload != 1) {
+            return response()->json(array('success' => false, 'msg' => 'Upload to R2 failed!'));
+        }
+    
+        return [
+            'is_thumbnail'  => $params['media'] == 'poster' ? 0 : 1,
+            'path'          => env('R2_MOVIE_URL'),
+            'image'         => $r2FilePath,
+        ];
+    }
 }
+
