@@ -29,7 +29,7 @@ class ImageModel extends BackendModel
                 $image_poster   = request()->file('image_thumb');
                 $image_name     = $params['slug'] . '-thumb-' . time() . '.' . $image_poster->getClientOriginalExtension();
             }
-            $image_poster->move(public_path('uploads/movies/'), $image_name);
+            $image_poster->move(public_path('uploads/files/'), $image_name);
             $params['image'] = $image_name;
             $result          = [
                 'movie_id'      => $params['insert_id'],
@@ -41,21 +41,29 @@ class ImageModel extends BackendModel
             return response()->json(array('success' => true, 'msg' => 'Thêm yêu cầu thành công!'));
         }
         if ($options['task'] == 'edit-item') {
-            if ($params['is_thumbnail'] == 0) {
-                    $image   = request()->file('image_poster');
-                    $reponse = GoogleDriveService::uploadFile($image, env('GOOGLE_DRIVE_FOLDER_ID'));
+            $result = [];
+            $images   = request()->file('image');
+           
+            foreach ($images as $params['media'] => $image) {
+                $r2FilePath = '/' . $params['controller'] . '/' . $params['media'] . '/' . $params['slug'] . '-' . time() . '.' . $image->extension();
+                $result[] =  $this->uploadToR2($params, $r2FilePath, $image);
             }
-            else if ($params['is_thumbnail'] == 1) {
-                    $image   = request()->file('image_thumb');
-                    $reponse = GoogleDriveService::uploadFile($image, env('GOOGLE_DRIVE_FOLDER_ID'));
+            
+            if ($result != []) {
+                foreach ($result as $re) {
+                    $this->where('movie_id', $params['id'])->where('is_thumbnail', $re['is_thumbnail'])
+                        ->update([
+                            'image' => $re['image'], 
+                            'path'  => $re['path']
+                        ]);
+                }    
             }
-            if (!$reponse->id) {
-                    return response()->json(array('success' => false, 'msg' => 'Thêm yêu cầu thất bại!'));
+            
+            if ($result[0]['is_thumbnail'] == 0) {
+                $url = $result[0]['path'] . $result[0]['image'];    
+
+                return $url;
             }
-            $this->where('movie_id', $params['id'])->where('is_thumbnail', $params['is_thumbnail'])
-                ->update(['image' => $reponse->id, 'path' => $path]);
-            $url = $path . $reponse->id;
-            return $url;
         }  
     }
 }

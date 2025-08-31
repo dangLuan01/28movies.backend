@@ -12,7 +12,7 @@ use App\Jobs\ProcessAutoSaveMovie;
 class ProductModel extends BackendModel
 {
     protected $fillable = ['id'];
-    public $crudNotAccepted = ['genre', 'image_poster', 'image_thumb'];    
+    public $crudNotAccepted = ['genre', 'image'];    
     protected Client $elasticsearch;
     public function __construct()
     {
@@ -84,17 +84,17 @@ class ProductModel extends BackendModel
             return response()->json(array('success' => true, 'msg' => 'Thêm yêu cầu thành công!'));
         }
         if ($options['task'] == 'edit-item') {
-            
-            if(request()->hasFile('image_poster')){
-                $params['is_thumbnail'] = 0;
+           
+            if(request()->hasFile('image')){
+              
                 $this->image_poster     = new ImageModel();
                 $poster = $this->image_poster->saveItem($params, ['task' => 'edit-item']);
             }
-            if(request()->hasFile('image_thumb')){
-                $params['is_thumbnail'] = 1;
-                $this->image_poster     = new ImageModel();
-                $this->image_poster->saveItem($params, ['task' => 'edit-item']);
-            }
+            // if(request()->hasFile('image_thumb')){
+            //     $params['is_thumbnail'] = 1;
+            //     $this->image_poster     = new ImageModel();
+            //     $this->image_poster->saveItem($params, ['task' => 'edit-item']);
+            // }
             
             $params['updated_at'] = date('Y-m-d H:i:s');
             $movie = $this->find($params[$this->primaryKey]);
@@ -105,8 +105,12 @@ class ProductModel extends BackendModel
             // Update Elasticsearch
             $params['poster'] = $poster ?? null;
             $params['release_date'] = intval($params['release_date']) ;
-            $es = new ElasticsearchModel(app(Client::class));
-            $es->saveItem($this->prepareParams($params), ['task' => 'edit-item', 'id' => $params[$this->primaryKey]]);
+            echo '<pre>';
+            print_r($params['poster']);
+            echo '<pre>';
+            die();
+            // $es = new ElasticsearchModel(app(Client::class));
+            // $es->saveItem($this->prepareParams($params), ['task' => 'edit-item', 'id' => $params[$this->primaryKey]]);
             // Delete cache redis
             $params['key'] = 'movie:slug='.$params['slug'].':type='.$params['type'];
             $rd = new CacheGenreModel();

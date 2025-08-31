@@ -66,6 +66,17 @@ return [
             'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
             'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
         ],
+        'r2-movie' => [
+            'driver' => 'r2',
+            'key' => env('R2_MOVIE_ACCESS_KEY_ID'),
+            'secret' => env('R2_MOVIE_SECRET_ACCESS_KEY'),
+            'region' => env('R2_MOVIE_DEFAULT_REGION', 'us-east-1'),
+            'bucket' => env('R2_MOVIE_BUCKET'),
+            'url' => env('R2_MOVIE_URL'),
+            'endpoint' => env('R2_MOVIE_ENDPOINT', false),
+            'use_path_style_endpoint' => env('R2_MOVIE_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+        ],
 
     ],
 

@@ -29,9 +29,9 @@
                             <div class="col-12 col-sm-6 col-md-12">
                                 <div class="form__img">
                                     <label for="form__img-upload">Upload cover</label>
-                                    <input id="form__img-upload" name="image_poster" type="file"
+                                    <input id="form__img-upload" name="image[poster]" type="file"
                                         accept=".png, .jpg, .jpeg" />
-                                    <img id="form__img" src="{{'https://wsrv.nl/?url=' . $params['item']['images']['0']['path'] . $params['item']['images']['0']['image'] ?? ''}}" alt="{{$params['item']['origin_name'] ?? ''}}" />
+                                    <img id="form__img" src="{{ $params['item']['images']['0']['path'] . $params['item']['images']['0']['image'] ?? ''}}" alt="{{$params['item']['origin_name'] ?? ''}}" />
                                 </div>
                             </div>
                         </div>
@@ -146,7 +146,7 @@
                             <div class="col-12">
                                 <div class="form__gallery">
                                     <label id="gallery1" for="form__gallery-upload">Upload thumbnail</label>
-                                    <input id="form__gallery-upload" name="image_thumb" class="form__gallery-upload" type="file" accept=".png, .jpg, .jpeg"/>
+                                    <input id="form__gallery-upload" name="image[thumbnail]" class="form__gallery-upload" type="file" accept=".png, .jpg, .jpeg"/>
                                 </div>
                                 <input type="text" class="form__input"value="{{$params['item']['images']['1']['path'] . $params['item']['images']['1']['image']}}" />
                             </div>
