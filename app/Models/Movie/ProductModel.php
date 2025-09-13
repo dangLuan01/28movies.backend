@@ -5,8 +5,6 @@ namespace App\Models\Movie;
 use App\Models\BackendModel;
 use App\Models\Elasticsearch\ElasticsearchModel;
 use Elasticsearch\Client;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Jobs\ProcessAutoSaveMovie;
 
 class ProductModel extends BackendModel
@@ -105,12 +103,9 @@ class ProductModel extends BackendModel
             // Update Elasticsearch
             $params['poster'] = $poster ?? null;
             $params['release_date'] = intval($params['release_date']) ;
-            echo '<pre>';
-            print_r($params['poster']);
-            echo '<pre>';
-            die();
-            // $es = new ElasticsearchModel(app(Client::class));
-            // $es->saveItem($this->prepareParams($params), ['task' => 'edit-item', 'id' => $params[$this->primaryKey]]);
+            
+            $es = new ElasticsearchModel(app(Client::class));
+            $es->saveItem($this->prepareParams($params), ['task' => 'edit-item', 'id' => $params[$this->primaryKey]]);
             // Delete cache redis
             $params['key'] = 'movie:slug='.$params['slug'].':type='.$params['type'];
             $rd = new CacheGenreModel();
