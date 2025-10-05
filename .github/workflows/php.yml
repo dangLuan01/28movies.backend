@@ -44,6 +44,9 @@ jobs:
           echo "🐳 Restarting Docker ontainers...."
           docker compose build
           docker compose up -d --remove-orphans
+          echo "🧹 Cleaning up Docker cache and old images..."
+          docker builder prune -af
+          docker image prune -f
           echo "✅ Deploy complete!"
     - name: 📢 Notify to Telegram
       run: |
