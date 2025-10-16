@@ -42,7 +42,15 @@ class ProcessAutoSaveMovie implements ShouldQueue
             if (empty($item['movie'])) {
                 return;
             }
+            
             $movie = $item['movie'];
+            if ($movie['episode_current'] == "Trailer") {
+                return;
+            }
+            if ($movie['episodes'][0]['server_data'][0]['link_m3u8'] == "") {
+                return;
+            }
+
             $episode_total = !empty($movie['episode_total']) && 
             preg_match('/(\d+)/', $movie['episode_total'], $matches)? $matches[0]: 0;
              if (preg_match('/<p>(.*?)<\/p>/s', $item['movie']['content'], $matches)) {
