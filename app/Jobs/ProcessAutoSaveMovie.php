@@ -44,7 +44,7 @@ class ProcessAutoSaveMovie implements ShouldQueue
             }
             
             $movie = $item['movie'];
-            if ($movie['episode_current'] == "Trailer") {
+            if ($movie['episode_current'] == "Trailer" || $movie['status'] == "trailer") {
                 return;
             }
 

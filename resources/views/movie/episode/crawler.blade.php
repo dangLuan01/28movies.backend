@@ -110,9 +110,12 @@
                     `);
                     $.each(data.data, function(index, movie) {
                         if (movie.existed != 0) {
+                            const epCurrent = extractEpisodeNumber(movie.episode_current)
+                            const checked = movie.now_episode < epCurrent ? "checked" : "";
+
                             $('.show-movie').append(`
                             <li>
-                                <input id="movie_${index}" type="checkbox" name="movie_slug[]" value="${movie.slug}" data-movie="${movie.movie_id}" />
+                                <input id="movie_${index}" type="checkbox" name="movie_slug[]"  value="${movie.slug}" data-movie="${movie.movie_id}" ${checked}/>
                                 <label for="movie_${index}">${movie.name}-${movie.now_episode}/${movie.episode_current}</label>
                             </li>
                         `);
@@ -165,5 +168,9 @@
             });
         });
     });
+    function extractEpisodeNumber(str) {
+        const match = str.match(/\d+/);
+        return match ? parseInt(match[0], 10) : null;
+    }
 </script>
 @stop
